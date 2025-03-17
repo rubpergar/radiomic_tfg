@@ -19,7 +19,6 @@ Es aconsejable crear un entorno virtual para instalar las dependecias necesarias
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # En Windows usar: venv\Scripts\activate
 ```
 
 Activamos el entorno virtual:
