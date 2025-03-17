@@ -1,10 +1,10 @@
 # Radiomic TFG
 
-Este repositorio contiene los scripts necesarios para el Trabajo de Fin de Grado (TFG) sobre radiómicas.
+Este repositorio contiene los scripts relativos al Trabajo de Fin de Grado (TFG) sobre radiómicas de Rubén Pérez Garrido.
 
 ## Instalación
 
-Para utilizar estos scripts, es necesario instalar varias dependencias y aplicaciones externas. A continuación, se detallan los pasos para preparar el entorno correctamente.
+Para utilizar estos scripts, es necesario instalar varias dependencias. A continuación, se detallan los pasos para preparar el entorno correctamente.
 
 ### 1. Clonar el repositorio
 
@@ -15,25 +15,29 @@ cd radiomic_tfg
 
 ### 2. Crear un entorno virtual (opcional pero recomendado)
 
+Es aconsejable crear un entorno virtual para instalar las dependecias necesarias para el funcionamiento de los scripts:
+
 ```bash
 python -m venv venv
 source venv/bin/activate  # En Windows usar: venv\Scripts\activate
 ```
 
-### 3. Instalar dependencias
-
-Se recomienda utilizar `pip` para instalar las dependencias necesarias. Puedes instalarlas directamente desde el archivo `requirements.txt`:
+Activamos el entorno virtual:
 
 ```bash
-pip install -r requirements.txt
+source venv/bin/activate  # En Windows usar: venv\Scripts\activate
 ```
 
-### 4. Instalar SimpleITK y otras dependencias adicionales (si es necesario)
+### 3. Instalar dependencias
 
-Algunas bibliotecas pueden requerir instalación manual dependiendo del sistema operativo:
+Se recomienda utilizar `pip` para instalar las dependencias necesarias:
 
 ```bash
-pip install SimpleITK numpy pydicom nrrd pyradiomics
+pip install numpy
+```
+
+```bash
+pip install pyradiomics pydicom
 ```
 
 ### 5. Verificar la instalación
@@ -41,7 +45,7 @@ pip install SimpleITK numpy pydicom nrrd pyradiomics
 Para comprobar que todo está instalado correctamente, puedes ejecutar el siguiente script:
 
 ```bash
-python -c "import SimpleITK, numpy, pydicom, nrrd, radiomics; print('Instalación correcta')"
+python -c "import numpy, radiomics, pydicom; print('Instalación correcta')"
 ```
 
 Si no se muestra ningún error, el entorno está correctamente configurado.
@@ -50,7 +54,6 @@ Si no se muestra ningún error, el entorno está correctamente configurado.
 
 - `scripts/`: Contiene los scripts en Python necesarios para el análisis.
 - `README.md`: Este archivo de documentación.
-- `requirements.txt`: Lista de dependencias necesarias.
 
 ## Contacto
 
