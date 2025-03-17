@@ -49,7 +49,6 @@ Si no se muestra ningún error, el entorno está correctamente configurado.
 ## Contenido del repositorio
 
 - `scripts/`: Contiene los scripts en Python necesarios para el análisis.
-- `data/`: Directorio sugerido para almacenar datos DICOM y NRRD.
 - `README.md`: Este archivo de documentación.
 - `requirements.txt`: Lista de dependencias necesarias.
 
