@@ -15,7 +15,7 @@ cd radiomic_tfg
 
 ### 2. Crear un entorno virtual (opcional pero recomendado)
 
-Es aconsejable crear un entorno virtual para instalar las dependecias necesarias para el funcionamiento de los scripts:
+Es aconsejable crear un entorno virtual para instalar las dependencias necesarias para el funcionamiento de los scripts:
 
 ```bash
 python -m venv venv
@@ -38,6 +38,24 @@ pip install numpy
 ```bash
 pip install pyradiomics pydicom
 ```
+
+### 4. Instalar Plastimatch
+
+Plastimatch es una herramienta externa necesaria para la conversión de imágenes médicas. Sigue estos pasos para instalarlo:
+
+1. Descarga el instalador desde la página oficial:  
+   🔗 [Plastimatch Downloads](https://plastimatch.org/download.html)
+2. Ejecuta el instalador y sigue las instrucciones.
+3. **Añade Plastimatch al PATH** (si el instalador no lo hace automáticamente):
+   - Abre `Variables de entorno` en Windows.
+   - En la variable `Path`, agrega la ruta donde se instaló `plastimatch.exe` (por ejemplo, `C:\Program Files\Plastimatch\bin`).
+4. Verifica la instalación ejecutando en PowerShell o CMD:
+
+```sh
+plastimatch --version
+```
+
+Si ves la versión, significa que está instalado correctamente.
 
 ### 5. Verificar la instalación
 
