@@ -44,7 +44,7 @@ pip install pyradiomics pydicom
 Plastimatch es una herramienta externa necesaria para la conversión de imágenes médicas. Sigue estos pasos para instalarlo:
 
 1. Descarga el instalador desde la página oficial:  
-   🔗 [Plastimatch Downloads](https://plastimatch.org/download.html)
+   🔗 [Plastimatch Downloads](https://sourceforge.net/projects/plastimatch/)
 2. Ejecuta el instalador y sigue las instrucciones.
 3. **Añade Plastimatch al PATH** (si el instalador no lo hace automáticamente):
    - Abre `Variables de entorno` en Windows.
