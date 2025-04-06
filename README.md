@@ -36,7 +36,7 @@ pip install numpy
 ```
 
 ```bash
-pip install pyradiomics pydicom
+pip install pyradiomics pydicom pandas
 ```
 
 ### 4. Instalar Plastimatch
@@ -62,7 +62,7 @@ Si ves la versión, significa que está instalado correctamente.
 Para comprobar que todo está instalado correctamente, puedes ejecutar el siguiente script:
 
 ```bash
-python -c "import numpy, radiomics, pydicom; print('Instalación correcta')"
+python -c "import numpy, radiomics, pydicom, pandas; print('Instalación correcta')"
 ```
 
 Si no se muestra ningún error, el entorno está correctamente configurado.
