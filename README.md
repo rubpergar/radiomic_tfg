@@ -36,7 +36,7 @@ pip install numpy
 ```
 
 ```bash
-pip install pyradiomics pydicom pandas
+pip install pyradiomics pydicom pandas scikit-learn pingouin
 ```
 
 ### 4. Instalar Plastimatch
