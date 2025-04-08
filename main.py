@@ -1,6 +1,7 @@
 import argparse
 import questionary
 import sys
+from questionary import Style
 from scripts import (
     dicom2nrrd,
     radiomicsExtraction,
@@ -11,27 +12,57 @@ from scripts import (
     folderStructure,
     nrrdComparison
 )
+from utils.utils import clear_console
+
+# Estilo personalizado para el menú
+custom_style = Style([
+    ('instruction', 'fg:#ffffff bold'),    # Texto de la pregunta
+    ('pointer', 'fg:#34eb9b bold'),     # Puntero (»)
+    ('highlighted', 'fg:#34eb9b bold'), # Opción resaltada
+    ('separator', 'fg:#cc5454'),        # Separador
+])
+
+# Opciones del menú con separadores
+menu_options = [
+    {"name": "Reorganizar estructura de carpetas", "value": "1"},
+    {"name": "Convertir DICOM a NRRD", "value": "2"},
+    {"name": "Extraer características radiómicas", "value": "3"},
+    {"name": "Unificar y normalizar CSVs", "value": "4"},
+    {"name": "Calcular estadísticas (ICC, Wilcoxon)", "value": "5"},
+    questionary.Separator(line="─" * 45),
+    {"name": "Leer DICOM", "value": "6"},
+    {"name": "Comparar CSVs", "value": "7"},
+    {"name": "Comparar NRRDs", "value": "8"},
+    questionary.Separator(line="─" * 45),
+    {"name": "Salir", "value": "0"},
+    questionary.Separator(line=" " * 1),
+]
 
 options = {
-    "1. Reorganizar estructura de carpetas": folderStructure.main,
-    "2. Convertir DICOM a NRRD": dicom2nrrd.main,
-    "3. Extraer características radiómicas": radiomicsExtraction.main,
-    "4. Unificar y normalizar CSVs": csvWork.main,
-    "5. Calcular estadísticas (ICC, Wilcoxon)": csvStats.main,
-    "6. Leer DICOM": dicomReader.main,
-    "7. Comparar CSVs": csvComparison.main,
-    "8. Comparar NRRDs": nrrdComparison.main,
+    "1": folderStructure.main,
+    "2": dicom2nrrd.main,
+    "3": radiomicsExtraction.main,
+    "4": csvWork.main,
+    "5": csvStats.main,
+    "6": dicomReader.main,
+    "7": csvComparison.main,
+    "8": nrrdComparison.main,
 }
 
 
-def show_menu():
+def show_menu(): 
     choice = questionary.select(
-        "\n¿Qué deseas hacer?",
-        choices=list(options.keys()) + ["0. Salir"]
+        "\n ",
+        choices=menu_options,
+        style=custom_style,
+        qmark="",
+        pointer="→",
+        instruction="¿QUÉ DESEAS HACER? Use las teclas de flecha para moverse, Enter para seleccionar\n",
+        use_indicator=True
     ).ask()
 
-    if choice == "0. Salir" or choice is None:
-        print("¡Hasta luego!")
+    if choice == "0" or choice is None:
+        print("\n¡Hasta luego!\n")
         sys.exit(0)
 
     options[choice]()
@@ -52,13 +83,14 @@ def parse_arguments():
 
 
 def main():
+    clear_console()
     args = parse_arguments()
 
-    if args.convert:
+    if args.reorganize:
         folderStructure.main()
-    elif args.extract:
+    elif args.convert:
         dicom2nrrd.main()
-    elif args.compare_csv:
+    elif args.extract:
         radiomicsExtraction.main()
     elif args.merge_csv:
         csvWork.main()
@@ -66,7 +98,7 @@ def main():
         csvStats.main()
     elif args.read_dicom:
         dicomReader.main()
-    elif args.reorganize:
+    elif args.compare_csv:
         csvComparison.main()
     elif args.compare_nrrd:
         nrrdComparison.main()
