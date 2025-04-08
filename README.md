@@ -36,7 +36,7 @@ pip install numpy
 ```
 
 ```bash
-pip install pyradiomics pydicom pandas scikit-learn pingouin
+pip install pyradiomics pydicom pynrrd pandas scikit-learn pingouin questionary argparse
 ```
 
 ### 4. Instalar Plastimatch
@@ -62,16 +62,19 @@ Si ves la versión, significa que está instalado correctamente.
 Para comprobar que todo está instalado correctamente, puedes ejecutar el siguiente script:
 
 ```bash
-python -c "import numpy, radiomics, pydicom, pandas; print('Instalación correcta')"
+python -c "import numpy, radiomics, pydicom, nrrd, pandas, sklearn, pingouin, questionary, argparse; print('Instalación correcta')"
 ```
 
 Si no se muestra ningún error, el entorno está correctamente configurado.
 
 ## Contenido del repositorio
 
-- `scripts/`: Contiene los scripts en Python necesarios para el análisis.
-- `README.md`: Este archivo de documentación.
+- `data/`: Contiene datos para realizar el tutorial de ejemplo.
+- `scripts/`: Contiene los scripts en Python necesarios para la ejecución.
+- `utils/`: Contiene funciones globales útiles para simplificar la sintaxis.
+. `main.py`: Interfaz unificada para ejecutar todos los scripts.
+- `README.md`: Contiene una presentación del repositorio y una guía general de instalación.
 
 ## Contacto
 
-Si tienes alguna duda o problema con la instalación, puedes abrir un issue en el repositorio o contactar conmigo.
+Si tienes alguna duda o problema con la instalación, puedes abrir un [issue](https://github.com/rubpergar/radiomic_tfg/issues) en el repositorio o contactar conmigo en **rubpergar@alum.us.es**.
