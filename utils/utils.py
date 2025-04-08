@@ -1,3 +1,10 @@
+import platform
+import os
+
+
+#############################################################
+
+
 def yes_or_no(prompt):
     while True:
         response = input(prompt).strip().lower()
@@ -5,3 +12,16 @@ def yes_or_no(prompt):
             return response
         else:
             print("    [!] Please enter 'yes' or 'no'.")
+
+
+#############################################################
+
+
+def clear_console():
+    if platform.system() == "Windows":
+        os.system('cls')
+    else:
+        os.system('clear')
+
+
+#############################################################
