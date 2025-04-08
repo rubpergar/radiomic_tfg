@@ -45,10 +45,14 @@ def reorganizar_carpetas(ruta_base):
                     shutil.rmtree(ruta_datos, ignore_errors=True)
 
 
-if __name__ == "__main__":
+def main():
     ruta_raiz = input("Enter the root folder: ").strip()
     if os.path.exists(ruta_raiz) and os.path.isdir(ruta_raiz):
         reorganizar_carpetas(ruta_raiz)
         print("\n-------------------------------------- Process completed --------------------------------------\n")
     else:
         print("Invalid route.")
+
+
+if __name__ == "__main__":
+    main()

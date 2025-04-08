@@ -71,7 +71,7 @@ def filter_features(icc_df, pval_df, icc_thresh=0.8, pval_thresh=0.05):
     return filtered
 
 
-if __name__ == "__main__":
+def main():
     input_path = input("Enter the path to the normalized PRE/POST .csv file: ").strip()
 
     if os.path.exists(input_path):
@@ -93,3 +93,7 @@ if __name__ == "__main__":
         print("\n    [X] File not found. Check the path and try again.")
 
     print("\n-------------------------------------- Process completed --------------------------------------\n")
+
+
+if __name__ == "__main__":
+    main()

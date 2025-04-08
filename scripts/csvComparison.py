@@ -54,8 +54,12 @@ def compare_csv_files(file1, file2):
         print(f"Error comparing files: {e}")
 
 
-if __name__ == "__main__":
+def main():
     file_path1 = input("Enter the path for the first CSV file: ")
     file_path2 = input("Enter the path for the second CSV file: ")
 
     compare_csv_files(file_path1, file_path2)
+
+
+if __name__ == "__main__":
+    main()
