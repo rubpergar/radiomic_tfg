@@ -72,7 +72,7 @@ Si no se muestra ningún error, el entorno está correctamente configurado.
 - `data/`: Contiene datos para realizar el tutorial de ejemplo.
 - `scripts/`: Contiene los scripts en Python necesarios para la ejecución.
 - `utils/`: Contiene funciones globales útiles para simplificar la sintaxis.
-. `main.py`: Interfaz unificada para ejecutar todos los scripts.
+- `main.py`: Interfaz unificada para ejecutar todos los scripts.
 - `README.md`: Contiene una presentación del repositorio y una guía general de instalación.
 
 ## Contacto
