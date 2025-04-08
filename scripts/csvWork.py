@@ -3,15 +3,7 @@
 import os
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-
-
-def get_yes_no_input(prompt):
-    while True:
-        response = input(prompt).strip().lower()
-        if response in ['yes', 'no']:
-            return response
-        else:
-            print("    [!] Please enter 'yes' or 'no'.")
+from utils.utils import yes_or_no
 
 
 def read_csvs_from_folder(root_path):
@@ -104,21 +96,20 @@ def get_sorted_features(diff_file_path):
         print(f"{i:3d}. {feature:50s} --> Deviation: {score:.10f}")
 
 
-if __name__ == "__main__":
-
+def main():
     root_input = input("Enter the path to the root folder containing all patient folders: ").strip()
     if os.path.exists(root_input):
         combined_csv = read_csvs_from_folder(root_input)
 
         if combined_csv:
-            do_norm = get_yes_no_input("\nDo you want to normalize the combined data? (yes/no): ")
+            do_norm = yes_or_no("\nDo you want to normalize the combined data? (yes/no): ")
             final_csv = normalize_csv(combined_csv) if do_norm == 'yes' else combined_csv
 
-            do_diff = get_yes_no_input("\nDo you want to compute the difference between PRE and POST tests? (yes/no): ")
+            do_diff = yes_or_no("\nDo you want to compute the difference between PRE and POST tests? (yes/no): ")
             if do_diff == 'yes':
                 diff_csv = compute_pre_post_difference(final_csv)
 
-                do_top = get_yes_no_input("\nDo you want to list all features ordered by stability? (yes/no): ")
+                do_top = yes_or_no("\nDo you want to list all features ordered by stability? (yes/no): ")
                 if do_top == 'yes':
                     get_sorted_features(diff_csv)
 
@@ -126,3 +117,7 @@ if __name__ == "__main__":
         print("    [X] The specified path does not exist.")
 
     print("\n-------------------------------------- Process completed --------------------------------------\n")
+
+
+if __name__ == "__main__":
+    main()

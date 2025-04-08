@@ -3,6 +3,7 @@ import os
 import csv
 import logging
 from radiomics import featureextractor
+from utils.utils import yes_or_no
 
 
 logging.getLogger('radiomics').setLevel(logging.ERROR)
@@ -27,15 +28,9 @@ def process_single_patient():
     root_folder = input("Enter the root folder path containing the CT and SEG files: ")
     patient_name = os.path.basename(os.path.normpath(root_folder))
 
-    print("\nDo you want to save the results?")
+    save_option = yes_or_no("Do you want to save the results? (yes/no):")
     print("\nIf you select 'yes', the extracted radiomic features will be saved in a CSV file inside the same folder.")
     print("If you select 'no', the features will simply be displayed in the console.\n")
-
-    while True:
-        save_option = input("(yes/no): ").strip().lower()
-        if save_option in ['yes', 'no']:
-            break
-        print("Invalid input. Please enter 'yes', or 'no'.")
 
     image_path = os.path.join(root_folder, f"{patient_name}_CT.nrrd")
     mask_path = os.path.join(root_folder, f"{patient_name}_SEG_MASK.nrrd")
