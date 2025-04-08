@@ -78,3 +78,5 @@ Si no se muestra ningún error, el entorno está correctamente configurado.
 ## Contacto
 
 Si tienes alguna duda o problema con la instalación, puedes abrir un [issue](https://github.com/rubpergar/radiomic_tfg/issues) en el repositorio o contactar conmigo en **rubpergar@alum.us.es**.
+
+<p align="right">(<a href="#readme-top">volver arriba</a>)</p>
