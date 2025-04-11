@@ -8,7 +8,6 @@ from scripts import (
     csvStats,
     csvWork,
     dicomReader,
-    folderStructure,
     nrrdComparison
 )
 from utils.utils import clear_console
@@ -23,29 +22,27 @@ custom_style = Style([
 
 # Opciones del menú con separadores
 menu_options = [
-    {"name": "Reorganizar estructura de carpetas", "value": "1"},
-    {"name": "Convertir DICOM a NRRD", "value": "2"},
-    {"name": "Extraer características radiómicas", "value": "3"},
-    {"name": "Unificar y normalizar CSVs", "value": "4"},
-    {"name": "Calcular estadísticas (ICC, Wilcoxon)", "value": "5"},
+    {"name": "Convertir DICOM a NRRD",                "value": "1"},
+    {"name": "Extraer características radiómicas",    "value": "2"},
+    {"name": "Unificar y normalizar CSVs",            "value": "3"},
+    {"name": "Calcular estadísticas (ICC, Wilcoxon)", "value": "4"},
     questionary.Separator(line="─" * 45),
-    {"name": "Leer DICOM", "value": "6"},
-    {"name": "Comparar CSVs", "value": "7"},
-    {"name": "Comparar NRRDs", "value": "8"},
+    {"name": "Leer DICOM",                            "value": "5"},
+    {"name": "Comparar CSVs",                         "value": "6"},
+    {"name": "Comparar NRRDs",                        "value": "7"},
     questionary.Separator(line="─" * 45),
-    {"name": "Salir", "value": "0"},
+    {"name": "Salir",                                 "value": "0"},
     questionary.Separator(line=" " * 1),
 ]
 
 options = {
-    "1": folderStructure.main,
-    "2": dicom2nrrd.main,
-    "3": radiomicsExtraction.main,
-    "4": csvWork.main,
-    "5": csvStats.main,
-    "6": dicomReader.main,
-    "7": csvComparison.main,
-    "8": nrrdComparison.main,
+    "1": dicom2nrrd.main,
+    "2": radiomicsExtraction.main,
+    "3": csvWork.main,
+    "4": csvStats.main,
+    "5": dicomReader.main,
+    "6": csvComparison.main,
+    "7": nrrdComparison.main,
 }
 
 
@@ -65,7 +62,6 @@ def show_menu():
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Toolkit para características radiómicas")
-    parser.add_argument("--reorganize", action="store_true", help="Reorganizar estructura de carpetas")
     parser.add_argument("--extract", action="store_true", help="Extraer características radiómicas")
     parser.add_argument("--merge-csv", action="store_true", help="Unificar y normalizar CSVs")
     parser.add_argument("--convert", action="store_true", help="Convertir DICOM a NRRD")
@@ -81,9 +77,6 @@ def main():
     clear_console()
     args = parse_arguments()
 
-    if args.reorganize:
-        folderStructure.main()
-        return
     if args.convert:
         dicom2nrrd.main()
         return
