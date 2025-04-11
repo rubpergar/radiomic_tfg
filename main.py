@@ -1,3 +1,4 @@
+import time
 import argparse
 import questionary
 from questionary import Style
@@ -12,7 +13,7 @@ from scripts import (
 )
 from utils.utils import clear_console
 
-# Estilo personalizado para el menú
+
 custom_style = Style([
     ('instruction', 'fg:#ffffff bold'),    # Texto de la pregunta
     ('pointer', 'fg:#34eb9b bold'),        # Puntero (»)
@@ -20,7 +21,7 @@ custom_style = Style([
     ('separator', 'fg:#cc5454'),           # Separador
 ])
 
-# Opciones del menú con separadores
+
 menu_options = [
     {"name": "Convertir DICOM a NRRD",                "value": "1"},
     {"name": "Extraer características radiómicas",    "value": "2"},
@@ -56,7 +57,6 @@ def show_menu():
         instruction="¿QUÉ DESEAS HACER? Use las teclas de flecha para moverse, Enter para seleccionar\n",
         use_indicator=True
     ).ask()
-
     return choice
 
 
@@ -77,37 +77,50 @@ def main():
     clear_console()
     args = parse_arguments()
 
-    if args.convert:
-        dicom2nrrd.main()
-        return
-    if args.extract:
-        radiomicsExtraction.main()
-        return
-    if args.merge_csv:
-        csvWork.main()
-        return
-    if args.stats:
-        csvStats.main()
-        return
-    if args.read_dicom:
-        dicomReader.main()
-        return
-    if args.compare_csv:
-        csvComparison.main()
-        return
-    if args.compare_nrrd:
-        nrrdComparison.main()
-        return
+    try:
+        if args.convert:
+            dicom2nrrd.main()
+            return
+        if args.extract:
+            radiomicsExtraction.main()
+            return
+        if args.merge_csv:
+            csvWork.main()
+            return
+        if args.stats:
+            csvStats.main()
+            return
+        if args.read_dicom:
+            dicomReader.main()
+            return
+        if args.compare_csv:
+            csvComparison.main()
+            return
+        if args.compare_nrrd:
+            nrrdComparison.main()
+            return
 
-    while True:
-        choice = show_menu()
-        if choice == "0" or choice is None:
-            print("\n¡Hasta luego!\n")
-            break
+        while True:
+            try:
+                choice = show_menu()
+                if choice == "0" or choice is None:
+                    print("\n¡Hasta luego!\n")
+                    break
 
-        options[choice]()
-        input("\nPresiona Enter para volver al menú...")
-        clear_console()
+                try:
+                    options[choice]()
+                except KeyboardInterrupt:
+                    print("\n\n Volviendo al menú inicial...\n")
+                    time.sleep(1)
+
+                clear_console()
+
+            except KeyboardInterrupt:
+                print("\n¡Hasta luego!\n")
+                break
+
+    except Exception as e:
+        print(f"\n    [X] Error inesperado: {e}\n")
 
 
 if __name__ == "__main__":
