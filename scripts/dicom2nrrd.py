@@ -28,7 +28,7 @@ def process_ct(ct_dir, output_path):
             "plastimatch", "convert", "--input", ct_dir,
             "--output-img", output_path, "--output-type", "float"
         ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        print(f"    [√] CT converted --> {os.path.normpath(output_path).replace(os.sep, '/')}" )
+        print(f"    [√] CT converted → {os.path.normpath(output_path).replace(os.sep, '/')}" )
         return True
     except subprocess.CalledProcessError as e:
         print(f"    [X] Error processing CT: {e}")
@@ -66,7 +66,7 @@ def process_segmentation(seg_dir, ct_output_path, seg_output_path):
             print("    [!] SEG mask is empty after resampling.")
         else:
             sitk.WriteImage(resampled_seg_image, seg_output_path)
-            print(f"    [√] SEG converted and resampled --> {os.path.normpath(seg_output_path).replace(os.sep, '/')}" )
+            print(f"    [√] SEG converted and resampled → {os.path.normpath(seg_output_path).replace(os.sep, '/')}" )
         return True
     except Exception as e:
         print(f"    [X] Error processing SEG: {e}")
