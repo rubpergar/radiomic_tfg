@@ -1,49 +1,46 @@
-import pydicom
-import sys
 import os
-from utils.utils import yes_or_no
+import sys
+import pydicom
+from utils.utils import si_o_no
+from utils.utils import verificar_ruta
 
 
-def read_dicom(path):
+def leer_dicom(ruta):
     try:
-        ds = pydicom.dcmread(path)
-        return ds
+        return pydicom.dcmread(ruta)
     except Exception as e:
-        print(f"Error reading the DICOM file: {e}")
+        print(f"\n    [!] Error al leer el archivo DICOM: {e}\n")
         return None
 
 
-def export_to_txt(ds, output_path):
+def exportar_a_txt(ds, ruta_salida):
     try:
-        with open(output_path, "w", encoding="utf-8") as f:
+        with open(ruta_salida, "w", encoding="utf-8") as f:
             f.write(str(ds))
-        print(f"File successfully exported to: {output_path}")
+        print(f"\n    [√] Archivo exportado correctamente en: {ruta_salida}")
     except Exception as e:
-        print(f"Error exporting the file: {e}")
+        print(f"\n    [!] Error al exportar el archivo: {e}\n")
 
 
 def main():
-    dicom_path = input("Enter the path of the DICOM file: ").strip()
-    if not os.path.exists(dicom_path):
-        print("Error: The specified path does not exist.")
+    ruta_dicom = verificar_ruta("Introduce la ruta del archivo DICOM: ")
+    ds = leer_dicom(ruta_dicom)
+    if ds is None:
         sys.exit(1)
 
-    ds = read_dicom(dicom_path)
+    exportar = si_o_no("\n¿Deseas exportarlo a un archivo de texto? (si/no): ")
+    if exportar == "si":
+        ruta_salida = verificar_ruta("\nIntroduce la ruta donde deseas guardar el archivo: ")
 
-    export = yes_or_no("Do you want to export it to a text file? (yes/no):")
-    if export == "yes":
-        output_path = input("Enter the path where you want to save the file: ").strip()
-        if not os.path.exists(output_path):
-            print("Error: The specified path does not exist.")
-            sys.exit(1)
+        nombre_archivo = os.path.basename(ruta_dicom).replace(".dcm", ".txt")
+        ruta_completa = os.path.join(ruta_salida, nombre_archivo)
+        exportar_a_txt(ds, ruta_completa)
 
-        file_name = os.path.basename(dicom_path).replace(".dcm", ".txt")
-        full_path = os.path.join(output_path, file_name)
-        export_to_txt(ds, full_path)
-
-    display = yes_or_no("Do you want to display the content on the console? (yes/no):")
-    if display == "yes":
+    mostrar = si_o_no("\n¿Deseas mostrar el contenido por consola? (si/no): ")
+    if mostrar == "si":
+        print("")
         print(ds)
+        input("\nPresiona ENTER cuando hayas finalizado la lectura.")
 
 
 if __name__ == "__main__":
