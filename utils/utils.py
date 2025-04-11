@@ -5,19 +5,19 @@ import os
 #############################################################
 
 
-def yes_or_no(prompt):
+def si_o_no(prompt):
     while True:
         response = input(prompt).strip().lower()
-        if response in ['yes', 'no']:
+        if response in ['si', 'no']:
             return response
         else:
-            print("    [!] Please enter 'yes' or 'no'.")
+            print("    [!] Por favor, introduce 'si' o 'no'.")
 
 
 #############################################################
 
 
-def clear_console():
+def limpiar_consola():
     if platform.system() == "Windows":
         os.system('cls')
     else:
@@ -25,3 +25,12 @@ def clear_console():
 
 
 #############################################################
+
+
+def verificar_ruta(prompt):
+    while True:
+        ruta = input(prompt).strip()
+        if os.path.exists(ruta):
+            return ruta
+        else:
+            print("    [!] La ruta no existe. Por favor, introdúcela de nuevo.")
