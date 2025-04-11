@@ -1,66 +1,59 @@
-
 import nrrd
 import numpy as np
-import os
+from utils.utils import verificar_ruta
 
 
-def compare_nrrd_files(file1, file2):
+def leer_nrrd(ruta):
     try:
-        # Load .nrrd files
-        data1, header1 = nrrd.read(file1)
-        data2, header2 = nrrd.read(file2)
-
-        # Compare data
-        data_equal = np.array_equal(data1, data2)
-
-        # Normalize headers for comparison
-        def normalize_header(header):
-            return {k: str(v) for k, v in header.items() if k not in ['modification_time']}
-
-        header1_normalized = normalize_header(header1)
-        header2_normalized = normalize_header(header2)
-
-        # Compare normalized headers
-        header_equal = header1_normalized == header2_normalized
-
-        # Print differences if any
-        if not header_equal:
-            print("Header differences:\n")
-            for key in set(header1_normalized.keys()).union(header2_normalized.keys()):
-                val1 = header1_normalized.get(key, "Not in header1")
-                val2 = header2_normalized.get(key, "Not in header2")
-                if val1 != val2:
-                    print(f"{key}: {val1} != {val2}")
-
-        if not data_equal:
-            print("Data differences: The data arrays are not identical.")
-
-        return data_equal and header_equal
+        datos, cabecera = nrrd.read(ruta)
+        return datos, cabecera
     except Exception as e:
-        print(f"Error comparing files: {e}")
+        print(f"    [!] Error al leer el archivo NRRD: {e}")
+        return None, None
+
+
+def normalizar_cabecera(cabecera):
+    return {k: str(v) for k, v in cabecera.items() if k != 'modification_time'}
+
+
+def comparar_nrrd(archivo1, archivo2):
+    datos1, cabecera1 = leer_nrrd(archivo1)
+    datos2, cabecera2 = leer_nrrd(archivo2)
+
+    if datos1 is None or datos2 is None:
         return False
 
+    datos_iguales = np.array_equal(datos1, datos2)
+    cab1 = normalizar_cabecera(cabecera1)
+    cab2 = normalizar_cabecera(cabecera2)
+    cabeceras_iguales = cab1 == cab2
 
-def get_valid_nrrd_path(prompt):
-    while True:
-        file_path = input(prompt).strip()
-        if not os.path.exists(file_path):
-            print("Error: The specified path does not exist. Please enter a valid path.")
-            continue
-        if not file_path.lower().endswith(".nrrd"):
-            print("Error: The file is not an NRRD file. Please enter a valid .nrrd file.")
-            continue
-        return file_path
+    if not cabeceras_iguales:
+        print("\n    [!] Diferencias en la cabecera:")
+        for clave in set(cab1.keys()).union(cab2.keys()):
+            val1 = cab1.get(clave, "No está en archivo 1")
+            val2 = cab2.get(clave, "No está en archivo 2")
+            if val1 != val2:
+                print(f"        {clave}: {val1} ≠ {val2}")
+
+    if not datos_iguales:
+        print("\n    [!] Diferencias en los datos.")
+
+    return datos_iguales and cabeceras_iguales
 
 
 def main():
-    file_path1 = get_valid_nrrd_path("Enter the path of the first NRRD file: ")
-    file_path2 = get_valid_nrrd_path("Enter the path of the second NRRD file: ")
+    archivo1 = verificar_ruta("Introduce la ruta del primer archivo NRRD: ", ".nrrd")
+    archivo2 = verificar_ruta("Introduce la ruta del segundo archivo NRRD: ", ".nrrd")
 
-    if compare_nrrd_files(file_path1, file_path2):
-        print("\n----------------------------- The files are identical -----------------------------\n")
+    son_iguales = comparar_nrrd(archivo1, archivo2)
+
+    if son_iguales:
+        print("\n    [√] Los archivos NRRD son idénticos.")
+        input("\nPresiona ENTER cuando hayas finalizado.")
     else:
-        print("\n----------------------------- The files are different -----------------------------\n")
+        print("\n    [X] Los archivos NRRD son diferentes.")
+        input("\nPresiona ENTER cuando hayas finalizado la lectura.")
 
 
 if __name__ == "__main__":
