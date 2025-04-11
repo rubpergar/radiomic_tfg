@@ -10,7 +10,7 @@ def read_dicom(path):
         return ds
     except Exception as e:
         print(f"Error reading the DICOM file: {e}")
-        sys.exit(1)
+        return None
 
 
 def export_to_txt(ds, output_path):
