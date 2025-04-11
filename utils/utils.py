@@ -27,10 +27,13 @@ def limpiar_consola():
 #############################################################
 
 
-def verificar_ruta(prompt):
+def verificar_ruta(prompt, extension=None):
     while True:
         ruta = input(prompt).strip()
-        if os.path.exists(ruta):
-            return ruta
-        else:
+        if not os.path.exists(ruta):
             print("    [!] La ruta no existe. Por favor, introdúcela de nuevo.")
+            continue
+        if extension and not ruta.lower().endswith(extension.lower()):
+            print(f"    [!] El archivo no es de tipo {extension}. Por favor, introdúcelo de nuevo")
+            continue
+        return ruta
