@@ -1,6 +1,5 @@
 import argparse
 import questionary
-import sys
 from questionary import Style
 from scripts import (
     dicom2nrrd,
@@ -17,9 +16,9 @@ from utils.utils import clear_console
 # Estilo personalizado para el menú
 custom_style = Style([
     ('instruction', 'fg:#ffffff bold'),    # Texto de la pregunta
-    ('pointer', 'fg:#34eb9b bold'),     # Puntero (»)
-    ('highlighted', 'fg:#34eb9b bold'), # Opción resaltada
-    ('separator', 'fg:#cc5454'),        # Separador
+    ('pointer', 'fg:#34eb9b bold'),        # Puntero (»)
+    ('highlighted', 'fg:#34eb9b bold'),    # Opción resaltada
+    ('separator', 'fg:#cc5454'),           # Separador
 ])
 
 # Opciones del menú con separadores
@@ -50,7 +49,7 @@ options = {
 }
 
 
-def show_menu(): 
+def show_menu():
     choice = questionary.select(
         "\n ",
         choices=menu_options,
@@ -61,11 +60,7 @@ def show_menu():
         use_indicator=True
     ).ask()
 
-    if choice == "0" or choice is None:
-        print("\n¡Hasta luego!\n")
-        sys.exit(0)
-
-    options[choice]()
+    return choice
 
 
 def parse_arguments():
@@ -88,22 +83,38 @@ def main():
 
     if args.reorganize:
         folderStructure.main()
-    elif args.convert:
+        return
+    if args.convert:
         dicom2nrrd.main()
-    elif args.extract:
+        return
+    if args.extract:
         radiomicsExtraction.main()
-    elif args.merge_csv:
+        return
+    if args.merge_csv:
         csvWork.main()
-    elif args.stats:
+        return
+    if args.stats:
         csvStats.main()
-    elif args.read_dicom:
+        return
+    if args.read_dicom:
         dicomReader.main()
-    elif args.compare_csv:
+        return
+    if args.compare_csv:
         csvComparison.main()
-    elif args.compare_nrrd:
+        return
+    if args.compare_nrrd:
         nrrdComparison.main()
-    else:
-        show_menu()
+        return
+
+    while True:
+        choice = show_menu()
+        if choice == "0" or choice is None:
+            print("\n¡Hasta luego!\n")
+            break
+
+        options[choice]()
+        input("\nPresiona Enter para volver al menú...")
+        clear_console()
 
 
 if __name__ == "__main__":
