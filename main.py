@@ -2,6 +2,7 @@ import time
 import argparse
 import questionary
 from questionary import Style
+from utils.utils import limpiar_consola
 from scripts import (
     dicom2nrrd,
     radiomicsExtraction,
@@ -11,7 +12,6 @@ from scripts import (
     dicomReader,
     nrrdComparison
 )
-from utils.utils import clear_console
 
 
 custom_style = Style([
@@ -74,7 +74,7 @@ def parse_arguments():
 
 
 def main():
-    clear_console()
+    limpiar_consola()
     args = parse_arguments()
 
     try:
@@ -113,7 +113,7 @@ def main():
                     print("\n\n Volviendo al menú inicial...\n")
                     time.sleep(1)
 
-                clear_console()
+                limpiar_consola()
 
             except KeyboardInterrupt:
                 print("\n¡Hasta luego!\n")
