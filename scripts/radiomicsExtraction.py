@@ -3,7 +3,7 @@ import os
 import csv
 import logging
 from radiomics import featureextractor
-from utils.utils import yes_or_no
+from utils.utils import si_o_no
 
 
 logging.getLogger('radiomics').setLevel(logging.ERROR)
@@ -20,7 +20,7 @@ def save_features_to_csv(features, output_path):
         writer = csv.writer(csv_file)
         for key, value in features.items():
             writer.writerow([key, value])
-        print(f"    [√] Radiomics extracted --> {os.path.normpath(output_path).replace(os.sep, '/')}" )
+        print(f"    [√] Radiomics extracted → {os.path.normpath(output_path).replace(os.sep, '/')}" )
 
 
 def process_single_patient():
@@ -28,7 +28,7 @@ def process_single_patient():
     root_folder = input("Enter the root folder path containing the CT and SEG files: ")
     patient_name = os.path.basename(os.path.normpath(root_folder))
 
-    save_option = yes_or_no("Do you want to save the results? (yes/no):")
+    save_option = si_o_no("Do you want to save the results? (yes/no):")
     print("\nIf you select 'yes', the extracted radiomic features will be saved in a CSV file inside the same folder.")
     print("If you select 'no', the features will simply be displayed in the console.\n")
 
@@ -41,7 +41,7 @@ def process_single_patient():
 
     features = extract_radiomics_features(image_path, mask_path)
 
-    if save_option == 'yes':
+    if save_option == 'si':
         output_csv_path = os.path.join(root_folder, f"{patient_name}_radiomics.csv")
         save_features_to_csv(features, output_csv_path)
     elif save_option == 'no':
