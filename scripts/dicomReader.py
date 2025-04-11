@@ -23,7 +23,7 @@ def exportar_a_txt(ds, ruta_salida):
 
 
 def main():
-    ruta_dicom = verificar_ruta("Introduce la ruta del archivo DICOM: ")
+    ruta_dicom = verificar_ruta("Introduce la ruta del archivo DICOM: ", ".dcm")
     ds = leer_dicom(ruta_dicom)
     if ds is None:
         sys.exit(1)
