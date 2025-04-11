@@ -1,64 +1,73 @@
-
 import csv
+from utils.utils import verificar_ruta
 
 
-def calculate_variation(value1, value2):
+def calcular_variacion(valor1, valor2):
     try:
-        num1 = float(value1)
-        num2 = float(value2)
+        num1 = float(valor1)
+        num2 = float(valor2)
         if num1 == 0:
-            return "Undefined (division by zero)", None
-        variation = abs(((num2 - num1) / abs(num1)) * 100)
-        return f"{variation:.15f}%", variation
+            return "    [!] Indefinido (división por cero)", None
+        variacion = abs(((num2 - num1) / abs(num1)) * 100)
+        return f"{variacion:.15f}%", variacion
     except ValueError:
-        return "Text or header", None
+        return "Texto o encabezado", None
 
 
-def compare_csv_files(file1, file2):
-    differences = []
-    variation_values = []
+def comparar_csv(archivo1, archivo2):
+    diferencias = []
+    valores_variacion = []
 
     try:
-        with open(file1, 'r') as f1, open(file2, 'r') as f2:
-            reader1 = csv.reader(f1)
-            reader2 = csv.reader(f2)
+        with open(archivo1, 'r', encoding='utf-8') as f1, open(archivo2, 'r', encoding='utf-8') as f2:
+            lector1 = csv.reader(f1)
+            lector2 = csv.reader(f2)
 
-            for i, (row1, row2) in enumerate(zip(reader1, reader2), start=1):
-                if len(row1) > 0 and len(row2) > 0 and row1[0] == 'diagnostics_Image-original_Hash':
+            for i, (fila1, fila2) in enumerate(zip(lector1, lector2), start=1):
+                if fila1 and fila2 and fila1[0] == 'diagnostics_Image-original_Hash':
                     continue
 
-                if row1 != row2:
-                    variations = []
-                    for v1, v2 in zip(row1, row2):
-                        variation_str, variation_num = calculate_variation(v1, v2)
-                        variations.append(variation_str)
-                        if variation_num is not None:
-                            variation_values.append(variation_num)
-                    differences.append((i, row1, row2, variations))
+                if fila1 != fila2:
+                    variaciones = []
+                    for v1, v2 in zip(fila1, fila2):
+                        str_var, num_var = calcular_variacion(v1, v2)
+                        variaciones.append(str_var)
+                        if num_var is not None:
+                            valores_variacion.append(num_var)
+                    diferencias.append((i, fila1, fila2, variaciones))
 
-        if differences:
-            print("Differences found:")
-            for diff in differences:
-                line_num, row1, row2, variations = diff
-                print(f"Line {line_num}:")
-                print(f"  File 1: {row1}")
-                print(f"  File 2: {row2}")
-                print(f"  Variation: {variations}")
+        if diferencias:
+            print("\n    [X] Se encontraron diferencias entre los archivos CSV:")
+            for linea, fila1, fila2, variaciones in diferencias:
+                print(f"\n    Línea {linea}:")
+                print(f"        Archivo 1: {fila1}")
+                print(f"        Archivo 2: {fila2}")
+                print(f"        Variación: {variaciones}")
 
-            avg_variation = sum(variation_values) / len(variation_values) if variation_values else 0
-            print(f"\nThe files are different. There are {len(differences)} differences between the files.")
-            print(f"Average variation between different values: {avg_variation:.15f}%\n")
+            promedio = sum(valores_variacion) / len(valores_variacion) if valores_variacion else 0
+            print(f"\n    Total de diferencias detectadas: {len(diferencias)}")
+            print(f"    Variación promedio: {promedio:.15f}%")
+            print("\n    [X] Los archivos CSV son distintos.")
+            return False
         else:
-            print("The files are identical.")
-    except Exception as e:
-        print(f"Error comparing files: {e}")
+            print("\n    [√] Los archivos CSV son idénticos.")
+            return True
 
+    except Exception as e:
+        print(f"    [!] Error al comparar archivos CSV: {e}")
+        return False
+    
 
 def main():
-    file_path1 = input("Enter the path for the first CSV file: ")
-    file_path2 = input("Enter the path for the second CSV file: ")
+    archivo1 = verificar_ruta("Introduce la ruta del primer archivo CSV: ", ".csv")
+    archivo2 = verificar_ruta("Introduce la ruta del segundo archivo CSV: ", ".csv")
 
-    compare_csv_files(file_path1, file_path2)
+    son_iguales = comparar_csv(archivo1, archivo2)
+
+    if son_iguales:
+        input("\nPresiona ENTER cuando hayas finalizado.")
+    else:
+        input("\nPresiona ENTER cuando hayas finalizado la lectura.")
 
 
 if __name__ == "__main__":
