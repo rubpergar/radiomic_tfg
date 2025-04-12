@@ -3,92 +3,87 @@ import os
 import csv
 import logging
 from radiomics import featureextractor
-from utils.utils import si_o_no
+from utils.utils import si_o_no, verificar_ruta, verificar_numero
 
 
 logging.getLogger('radiomics').setLevel(logging.ERROR)
 
 
-def extract_radiomics_features(image_path, mask_path):
+def extraer_caracteristicas_radiomicas(imagen, mascara):
     extractor = featureextractor.RadiomicsFeatureExtractor()
-    features = extractor.execute(image_path, mask_path)
-    return {k: v for k, v in features.items() if 'diagnostics' not in k}
+    caracteristicas = extractor.execute(imagen, mascara)
+    return {k: v for k, v in caracteristicas.items() if 'diagnostics' not in k}
 
 
-def save_features_to_csv(features, output_path):
-    with open(output_path, mode='w', newline='') as csv_file:
-        writer = csv.writer(csv_file)
-        for key, value in features.items():
-            writer.writerow([key, value])
-        print(f"    [√] Radiomics extracted → {os.path.normpath(output_path).replace(os.sep, '/')}" )
+def guardar_caracteristicas_csv(caracteristicas, ruta_salida):
+    with open(ruta_salida, mode='w', newline='') as archivo_csv:
+        writer = csv.writer(archivo_csv)
+        for clave, valor in caracteristicas.items():
+            writer.writerow([clave, valor])
+    print(f"    [√] Características radiómicas guardadas en: {os.path.normpath(ruta_salida).replace(os.sep, '/')}")
 
 
-def process_single_patient():
-    print("\nRoot pacient folder must contain both CT and SEG nrrd files.")
-    root_folder = input("Enter the root folder path containing the CT and SEG files: ")
-    patient_name = os.path.basename(os.path.normpath(root_folder))
+def procesar_un_paciente():
+    print("\nLa carpeta del paciente debe contener ambos archivos: CT y SEG (en formato .nrrd)")
 
-    save_option = si_o_no("Do you want to save the results? (yes/no):")
-    print("\nIf you select 'yes', the extracted radiomic features will be saved in a CSV file inside the same folder.")
-    print("If you select 'no', the features will simply be displayed in the console.\n")
+    carpeta = verificar_ruta("Introduce la ruta de la carpeta del paciente: ")
+    nombre = os.path.basename(os.path.normpath(carpeta))
 
-    image_path = os.path.join(root_folder, f"{patient_name}_CT.nrrd")
-    mask_path = os.path.join(root_folder, f"{patient_name}_SEG_MASK.nrrd")
+    print("\nNota: si eliges 'si', se guardarán las características extraídas en la misma carpeta del paciente.")
+    print("      si eliges 'no', las características solo se mostrarán por consola.")
+    guardar = si_o_no("¿Deseas guardar los resultados en un archivo CSV? (si/no): ")
+    print("")
 
-    if not os.path.exists(image_path) or not os.path.exists(mask_path):
-        print("Error: Image or mask file not found.")
+    imagen_path = os.path.join(carpeta, f"{nombre}_CT.nrrd")
+    mascara_path = os.path.join(carpeta, f"{nombre}_SEG_MASK.nrrd")
+
+    if not os.path.exists(imagen_path) or not os.path.exists(mascara_path):
+        print("    [X] No se encontraron el archivo CT o el archivo SEG.")
         return
 
-    features = extract_radiomics_features(image_path, mask_path)
+    caracteristicas = extraer_caracteristicas_radiomicas(imagen_path, mascara_path)
 
-    if save_option == 'si':
-        output_csv_path = os.path.join(root_folder, f"{patient_name}_radiomics.csv")
-        save_features_to_csv(features, output_csv_path)
-    elif save_option == 'no':
-        for key, value in features.items():
-            print(f"{key}: {value}")
-        print("\n-------------------------------------- Process completed --------------------------------------\n")
+    if guardar == 'si':
+        ruta_csv = os.path.join(carpeta, f"{nombre}_radiomics.csv")
+        guardar_caracteristicas_csv(caracteristicas, ruta_csv)
+        input("\nPresiona ENTER cuando hayas finalizado.")
+    else:
+        print("\n    Características extraídas:")
+        for clave, valor in caracteristicas.items():
+            print(f"  - {clave}: {valor}")
+        print("\n    [√] Proceso completado.")
+        input("\nPresiona ENTER cuando hayas finalizado la lectura.")
 
 
-def process_multiple_patients():
-    print("\nPacient folder must contain both CT and SEG nrrd files.")
-    root_folder = input("Enter the root folder path containing multiple patient folders: ")
+def procesar_multiples_pacientes():
+    print("\nCada subcarpeta debe contener ambos archivos: CT y SEG (en formato .nrrd)")
+    carpeta_raiz = verificar_ruta("Introduce la ruta que contiene todas las carpetas de pacientes: ")
 
-    if not os.path.isdir(root_folder):
-        print("Error: Provided path is not a directory.")
-        return
+    for nombre_paciente in os.listdir(carpeta_raiz):
+        carpeta_paciente = os.path.join(carpeta_raiz, nombre_paciente)
+        if os.path.isdir(carpeta_paciente):
+            imagen = os.path.join(carpeta_paciente, f"{nombre_paciente}_CT.nrrd")
+            mascara = os.path.join(carpeta_paciente, f"{nombre_paciente}_SEG_MASK.nrrd")
 
-    for patient_name in os.listdir(root_folder):
-        patient_folder = os.path.join(root_folder, patient_name)
-        if os.path.isdir(patient_folder):
-            image_path = os.path.join(patient_folder, f"{patient_name}_CT.nrrd")
-            mask_path = os.path.join(patient_folder, f"{patient_name}_SEG_MASK.nrrd")
-
-            if os.path.exists(image_path) and os.path.exists(mask_path):
-                print(f"\nProcessing patient: {patient_name}")
-                features = extract_radiomics_features(image_path, mask_path)
-                output_csv_path = os.path.join(patient_folder, f"{patient_name}_radiomics.csv")
-                save_features_to_csv(features, output_csv_path)
+            if os.path.exists(imagen) and os.path.exists(mascara):
+                print(f"\nProcesando paciente: {nombre_paciente}")
+                caracteristicas = extraer_caracteristicas_radiomicas(imagen, mascara)
+                salida = os.path.join(carpeta_paciente, f"{nombre_paciente}_radiomics.csv")
+                guardar_caracteristicas_csv(caracteristicas, salida)
             else:
-                print(f"Skipping {patient_name}: Missing CT or SEG file.")
+                print(f"    [!] Saltando {nombre_paciente}: faltan archivos CT o SEG.")
+    print("\n    [√] Proceso completado.")
+
+    input("\nPresiona ENTER cuando hayas finalizado.")
 
 
 def main():
-    while True:
-        try:
-            num_patients = int(input("Enter the number of cases to process: "))
-            if num_patients >= 1:
-                break
-            print("Invalid input. Please enter a positive integer.")
-        except ValueError:
-            print("Error: Please enter a valid integer.")
+    num_pacientes = verificar_numero("Introduce la cantidad de casos a procesar: ")
 
-    if num_patients == 1:
-        process_single_patient()
-        print("\n-------------------------------------- Process completed --------------------------------------\n")
+    if num_pacientes == 1:
+        procesar_un_paciente()
     else:
-        process_multiple_patients()
-        print("\n-------------------------------------- Process completed --------------------------------------\n")
+        procesar_multiples_pacientes()
 
 
 if __name__ == "__main__":
