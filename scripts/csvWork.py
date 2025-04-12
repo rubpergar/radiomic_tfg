@@ -23,7 +23,7 @@ def leer_csvs_de_carpeta(ruta_raiz):
 
     if datos_combinados:
         df_final = pd.concat(datos_combinados, ignore_index=True)
-        ruta_salida = os.path.join(ruta_raiz, 'salida_combinada.csv')
+        ruta_salida = os.path.join(ruta_raiz, 'radiomicas_combinada.csv')
         df_final.to_csv(ruta_salida, index=False)
         print(f"\n    [√] Archivo combinado guardado en: '{ruta_salida}'\n")
         return ruta_salida
