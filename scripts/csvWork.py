@@ -15,8 +15,8 @@ def leer_csvs_de_carpeta(ruta_raiz):
                 ruta_csv = os.path.join(carpeta_paciente, archivos_csv[0])
                 df = pd.read_csv(ruta_csv, header=None)
                 df.columns = ['Característica', 'Valor']
-                df['Paciente'] = nombre_paciente
-                df = df.pivot(index='Paciente', columns='Característica', values='Valor').reset_index()
+                df['Patient'] = nombre_paciente
+                df = df.pivot(index='Patient', columns='Característica', values='Valor').reset_index()
                 datos_combinados.append(df)
             else:
                 print(f"    [!] No se encontró ningún archivo CSV en {carpeta_paciente}")
@@ -42,7 +42,7 @@ def normalizar_csv(ruta_csv):
     datos_normalizados = scaler.fit_transform(datos)
 
     df_normalizado = pd.DataFrame(datos_normalizados, columns=datos.columns)
-    df_normalizado.insert(0, 'Paciente', ids)
+    df_normalizado.insert(0, 'Patient', ids)
 
     ruta_salida = ruta_csv.replace('.csv', '_normalizado.csv')
     df_normalizado.to_csv(ruta_salida, index=False)
@@ -53,18 +53,18 @@ def normalizar_csv(ruta_csv):
 
 def calcular_diferencia_pre_post(ruta_csv):
     df = pd.read_csv(ruta_csv)
-    df['Paciente'] = df['Paciente'].astype(str)
-    df['ID_Base'] = df['Paciente'].str.replace(r'(_)?(-PRE|-POST)', '', regex=True).str.strip()
+    df['Patient'] = df['Patient'].astype(str)
+    df['ID_Base'] = df['Patient'].str.replace(r'(_)?(-PRE|-POST)', '', regex=True).str.strip()
 
-    df_pre = df[df['Paciente'].str.contains('PRE', case=False)].copy()
-    df_post = df[df['Paciente'].str.contains('POST', case=False)].copy()
+    df_pre = df[df['Patient'].str.contains('PRE', case=False)].copy()
+    df_post = df[df['Patient'].str.contains('POST', case=False)].copy()
 
     df_pre['ID_Base'] = df_pre['ID_Base']
     df_post['ID_Base'] = df_post['ID_Base']
 
     df_merged = pd.merge(df_pre, df_post, on='ID_Base', suffixes=('_PRE', '_POST'))
 
-    columnas_caracteristicas = [col for col in df_merged.columns if '_PRE' in col and col != 'Paciente_PRE']
+    columnas_caracteristicas = [col for col in df_merged.columns if '_PRE' in col and col != 'Patient_PRE']
     diferencias = {}
 
     for col in columnas_caracteristicas:
@@ -72,7 +72,7 @@ def calcular_diferencia_pre_post(ruta_csv):
         diferencias[base] = (df_merged[col] - df_merged[base + '_POST']).abs()
 
     df_resultado = pd.DataFrame(diferencias)
-    df_resultado.insert(0, 'Paciente', df_merged['ID_Base'])
+    df_resultado.insert(0, 'Patient', df_merged['ID_Base'])
 
     ruta_salida = ruta_csv.replace('.csv', '_diferencia.csv')
     df_resultado.to_csv(ruta_salida, index=False)
@@ -83,7 +83,7 @@ def calcular_diferencia_pre_post(ruta_csv):
 
 def listar_caracteristicas_por_estabilidad(ruta_diferencia):
     df = pd.read_csv(ruta_diferencia)
-    df_features = df.drop(columns=['Paciente'])
+    df_features = df.drop(columns=['Patient'])
 
     desv_std = df_features.std()
     desv_std = desv_std[desv_std > 0].sort_values()
