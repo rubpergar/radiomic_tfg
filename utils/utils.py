@@ -37,3 +37,17 @@ def verificar_ruta(prompt, extension=None):
             print(f"    [!] El archivo no es de tipo {extension}. Por favor, introdúcelo de nuevo")
             continue
         return ruta
+
+
+#############################################################
+
+
+def verificar_numero(prompt):
+    while True:
+        try:
+            valor = int(input(prompt))
+            if valor >= 1:
+                return valor
+            print("    [!] Introduce un número entero positivo.")
+        except ValueError:
+            print("    [!] Entrada no válida. Por favor, introduce un número entero.")
