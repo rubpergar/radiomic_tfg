@@ -1,99 +1,97 @@
+import os
+import warnings
 import pandas as pd
 import pingouin as pg
 from scipy.stats import wilcoxon
-import os
-import warnings
+from utils.utils import verificar_ruta
 
-# Do not show warning errors caused by mathematical issues during calculations
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 
-def calculate_icc(original_file):
-    df = pd.read_csv(original_file)
+def calcular_icc(archivo_csv):
+    df = pd.read_csv(archivo_csv)
     df['Patient'] = df['Patient'].astype(str)
     df['BaseID'] = df['Patient'].str.replace(r'(_)?(-PRE|-POST)', '', regex=True).str.strip()
 
-    pre_df = df[df['Patient'].str.contains('PRE', case=False)].copy()
-    post_df = df[df['Patient'].str.contains('POST', case=False)].copy()
+    df_pre = df[df['Patient'].str.contains('PRE', case=False)].copy()
+    df_post = df[df['Patient'].str.contains('POST', case=False)].copy()
 
-    icc_dict = {}
+    icc_resultados = {}
+    columnas = [col for col in df.columns if col not in ['Patient', 'BaseID']]
 
-    features = [col for col in df.columns if col not in ['Patient', 'BaseID']]
-    for feature in features:
-        df_icc = pd.DataFrame({
-            'targets': pre_df['BaseID'],
-            'raters': ['PRE'] * len(pre_df),
-            'ratings': pre_df[feature]
+    for columna in columnas:
+        df_icc_pre = pd.DataFrame({
+            'targets': df_pre['BaseID'],
+            'raters': ['PRE'] * len(df_pre),
+            'ratings': df_pre[columna]
         })
-        df_post = pd.DataFrame({
-            'targets': post_df['BaseID'],
-            'raters': ['POST'] * len(post_df),
-            'ratings': post_df[feature]
+        df_icc_post = pd.DataFrame({
+            'targets': df_post['BaseID'],
+            'raters': ['POST'] * len(df_post),
+            'ratings': df_post[columna]
         })
 
-        df_combined = pd.concat([df_icc, df_post], ignore_index=True)
+        df_completo = pd.concat([df_icc_pre, df_icc_post], ignore_index=True)
+
         try:
-            icc_val = pg.intraclass_corr(data=df_combined, targets='targets', raters='raters', ratings='ratings')
-            icc_value = icc_val[icc_val['Type'] == 'ICC2']['ICC'].values[0]
-            icc_dict[feature] = icc_value
-        except:
+            icc = pg.intraclass_corr(data=df_completo, targets='targets', raters='raters', ratings='ratings')
+            valor_icc = icc[icc['Type'] == 'ICC2']['ICC'].values[0]
+            icc_resultados[columna] = valor_icc
+        except Exception:
             continue
 
-    return pd.DataFrame.from_dict(icc_dict, orient='index', columns=['icc'])
+    return pd.DataFrame.from_dict(icc_resultados, orient='index', columns=['icc'])
 
 
-def calculate_wilcoxon(original_file):
-    df = pd.read_csv(original_file)
+def calcular_wilcoxon(archivo_csv):
+    df = pd.read_csv(archivo_csv)
     df['Patient'] = df['Patient'].astype(str)
     df['BaseID'] = df['Patient'].str.replace(r'(_)?(-PRE|-POST)', '', regex=True).str.strip()
 
-    pre_df = df[df['Patient'].str.contains('PRE', case=False)].copy()
-    post_df = df[df['Patient'].str.contains('POST', case=False)].copy()
+    df_pre = df[df['Patient'].str.contains('PRE', case=False)].copy()
+    df_post = df[df['Patient'].str.contains('POST', case=False)].copy()
 
-    wlcx_dict = {}
-    features = [col for col in df.columns if col not in ['Patient', 'BaseID']]
-    for feature in features:
+    pvalores = {}
+    columnas = [col for col in df.columns if col not in ['Patient', 'BaseID']]
+
+    for columna in columnas:
         try:
-            stat, p = wilcoxon(pre_df[feature], post_df[feature])
-            wlcx_dict[feature] = p
-        except:
+            estadistico, pvalor = wilcoxon(df_pre[columna], df_post[columna])
+            pvalores[columna] = pvalor
+        except Exception:
             continue
 
-    return pd.DataFrame.from_dict(wlcx_dict, orient='index', columns=['pval'])
+    return pd.DataFrame.from_dict(pvalores, orient='index', columns=['pval'])
 
 
-def filter_features(icc_df, pval_df, icc_thresh=0.8, pval_thresh=0.05):
-    merged = icc_df.join(pval_df)
-    filtered = merged[
-        (merged['icc'] > icc_thresh) &
-        (merged['pval'] > pval_thresh)
+def filtrar_caracteristicas(icc_df, pval_df, umbral_icc=0.8, umbral_pval=0.05):
+    combinados = icc_df.join(pval_df)
+    filtrados = combinados[
+        (combinados['icc'] > umbral_icc) &
+        (combinados['pval'] > umbral_pval)
     ]
-    return filtered
+    return filtrados
 
 
 def main():
-    input_path = input("Enter the path to the normalized PRE/POST .csv file: ").strip()
+    ruta_archivo = verificar_ruta("Introduce la ruta del .csv normalizado con los casos PRE y POST (radiomicas_combinadas_normalizado.csv): ", ".csv")
 
-    if os.path.exists(input_path):
-        print("\n    [~] Calculating feature statistics...")
+    print("\n    [~] Calculando estadísticas de características...")
 
-        icc_df = calculate_icc(input_path)
-        pval_df = calculate_wilcoxon(input_path)
+    icc_df = calcular_icc(ruta_archivo)
+    pval_df = calcular_wilcoxon(ruta_archivo)
 
-        result = filter_features(icc_df, pval_df)
+    resultado = filtrar_caracteristicas(icc_df, pval_df)
 
-        print(f"\n    [√] {len(result)} robust features found (ICC > 0.8 and p > 0.05):")
-        print(result)
+    print(f"\n    [√] Se encontraron {len(resultado)} características robustas (ICC > 0.8 y p > 0.05):")
+    print(resultado)
 
-        output_file = os.path.join(os.path.dirname(input_path), 'robust_features.csv')
-        result.to_csv(output_file)
-        print(f"\n    [✓] Result saved to '{output_file}'")
+    salida = os.path.join(os.path.dirname(ruta_archivo), 'mejores_radiomicas.csv')
+    resultado.to_csv(salida)
 
-    else:
-        print("\n    [X] File not found. Check the path and try again.")
+    print(f"\n    [✓] Resultados guardados en: '{salida}'")
 
-    print("\n-------------------------------------- Process completed --------------------------------------\n")
-
+    input("\nPresiona ENTER cuando hayas finalizado la lectura.")
 
 if __name__ == "__main__":
     main()
