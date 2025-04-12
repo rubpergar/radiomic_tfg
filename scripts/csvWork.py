@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from utils.utils import si_o_no
+from utils.utils import si_o_no, verificar_ruta
 
 
 def leer_csvs_de_carpeta(ruta_raiz):
@@ -25,7 +25,7 @@ def leer_csvs_de_carpeta(ruta_raiz):
         df_final = pd.concat(datos_combinados, ignore_index=True)
         ruta_salida = os.path.join(ruta_raiz, 'salida_combinada.csv')
         df_final.to_csv(ruta_salida, index=False)
-        print(f"\n    [√] Archivo combinado guardado en: '{ruta_salida}'")
+        print(f"\n    [√] Archivo combinado guardado en: '{ruta_salida}'\n")
         return ruta_salida
     else:
         print("\n    [X] No se encontraron datos para combinar.")
@@ -47,7 +47,7 @@ def normalizar_csv(ruta_csv):
     ruta_salida = ruta_csv.replace('.csv', '_normalizado.csv')
     df_normalizado.to_csv(ruta_salida, index=False)
 
-    print(f"\n    [√] Datos normalizados guardados en: '{ruta_salida}'")
+    print(f"\n    [√] Datos normalizados guardados en: '{ruta_salida}'\n")
     return ruta_salida
 
 
@@ -77,7 +77,7 @@ def calcular_diferencia_pre_post(ruta_csv):
     ruta_salida = ruta_csv.replace('.csv', '_diferencia.csv')
     df_resultado.to_csv(ruta_salida, index=False)
 
-    print(f"\n    [√] Diferencia PRE vs POST calculada y guardada en: '{ruta_salida}'")
+    print(f"\n    [√] Diferencia PRE vs POST calculada y guardada en: '{ruta_salida}'\n")
     return ruta_salida
 
 
@@ -94,41 +94,37 @@ def listar_caracteristicas_por_estabilidad(ruta_diferencia):
 
 
 def main():
-    print("\nLos nombres pueden variar, pero el nombre de la carpeta de pacientes deberán llevar")
-    print("\nel sufijo '-PRE' y '-POST' para facilitar la idenficación de caso correspondiente:")
+    print("Los nombres pueden variar, pero el nombre de las carpetas del paciente deberán llevar")
+    print("el sufijo '-PRE' y '-POST' para facilitar la idenficación de caso correspondiente:")
     print("""
     Carpeta_raiz/
-    │── Id_paciente1-POST/
-    │   │── ...radiomics.nrrd
-    │── Id_paciente1-PRE/
-    │   │── ...radiomics.nrrd
-    │── Id_paciente2-POST/
-    │   │── ...radiomics.nrrd
-    │── Id_paciente2-PRE/
-    │   │── ...radiomics.nrrd
+    ├── Id_paciente1-POST/
+    │   └── ...radiomics.csv
+    ├── Id_paciente1-PRE/
+    │   └── ...radiomics.csv
+    ├── Id_paciente2-POST/
+    │   └── ...radiomics.csv
+    ├── Id_paciente2-PRE/
+    │   └── ...radiomics.csv
     ...
     """)
     
-    ruta_raiz = input("Introduce la ruta de la carpeta raíz con las carpetas de pacientes: ").strip()
-    if not os.path.exists(ruta_raiz):
-        print("    [X] La ruta especificada no existe.")
-        return None
+    ruta_raiz = verificar_ruta("Introduce la ruta de la carpeta raíz con las carpetas de pacientes: ")
 
     ruta_combinada = leer_csvs_de_carpeta(ruta_raiz)
 
     if ruta_combinada:
-        normalizar = si_o_no("\n¿Deseas normalizar los datos combinados? (si/no): ")
-        ruta_final = normalizar_csv(ruta_combinada) if normalizar == 'si' else ruta_combinada
+        if si_o_no("¿Deseas normalizar los datos combinados? (si/no): ") == 'si':
+            ruta_combinada = normalizar_csv(ruta_combinada)
 
-        calcular_diferencias = si_o_no("\n¿Deseas calcular la diferencia entre tests PRE y POST? (si/no): ")
-        if calcular_diferencias == 'si':
-            ruta_diferencias = calcular_diferencia_pre_post(ruta_final)
+        if si_o_no("¿Deseas calcular la diferencia entre tests PRE y POST? (si/no): ") == 'si':
+            ruta_diferencias = calcular_diferencia_pre_post(ruta_combinada)
 
-            listar_top = si_o_no("\n¿Deseas listar las características ordenadas por estabilidad? (si/no): ")
-            if listar_top == 'si':
+            if si_o_no("¿Deseas listar las características ordenadas por estabilidad? (si/no): ") == 'si':
                 listar_caracteristicas_por_estabilidad(ruta_diferencias)
 
-    print("\n-------------------------------------- Proceso finalizado --------------------------------------\n")
+    print("\n    [√] Proceso completado.")
+    input("\nPresiona ENTER cuando hayas finalizado.")
 
 
 if __name__ == "__main__":
