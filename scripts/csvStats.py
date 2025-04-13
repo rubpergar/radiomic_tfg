@@ -3,7 +3,7 @@ import warnings
 import pandas as pd
 import pingouin as pg
 from scipy.stats import wilcoxon
-from utils.utils import verificar_ruta
+from utils.utils import verificar_ruta, print_coloreado
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
@@ -64,7 +64,7 @@ def calcular_wilcoxon(archivo_csv):
     return pd.DataFrame.from_dict(pvalores, orient='index', columns=['pval'])
 
 
-def filtrar_caracteristicas(icc_df, pval_df, umbral_icc=0.8, umbral_pval=0.05):
+def filtrar_caracteristicas(icc_df, pval_df, umbral_icc=0.9, umbral_pval=0.1): #0.8 y 0.05
     combinados = icc_df.join(pval_df)
     filtrados = combinados[
         (combinados['icc'] > umbral_icc) &
@@ -76,21 +76,20 @@ def filtrar_caracteristicas(icc_df, pval_df, umbral_icc=0.8, umbral_pval=0.05):
 def main():
     ruta_archivo = verificar_ruta("Introduce la ruta del .csv normalizado con los casos PRE y POST (radiomicas_combinadas_normalizado.csv): ", ".csv")
 
-    print("\n    [~] Calculando estadísticas de características...")
+    print_coloreado("\n    [~] Calculando estadísticas de características...")
 
     icc_df = calcular_icc(ruta_archivo)
     pval_df = calcular_wilcoxon(ruta_archivo)
 
     resultado = filtrar_caracteristicas(icc_df, pval_df)
 
-    print(f"\n    [√] Se encontraron {len(resultado)} características robustas (ICC > 0.8 y p > 0.05):")
+    print_coloreado(f"\n    [√] Se encontraron {len(resultado)} características robustas (ICC > 0.8 y p > 0.05):")
     print(resultado)
 
     salida = os.path.join(os.path.dirname(ruta_archivo), 'mejores_radiomicas.csv')
     resultado.to_csv(salida)
 
-    print(f"\n    [✓] Resultados guardados en: '{salida}'")
-
+    print_coloreado(f"\n    [√] Resultados guardados en: '{salida}'")
     input("\nPresiona ENTER cuando hayas finalizado la lectura.")
 
 if __name__ == "__main__":

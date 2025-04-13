@@ -1,5 +1,5 @@
 import csv
-from utils.utils import verificar_ruta
+from utils.utils import verificar_ruta, print_coloreado
 
 
 def calcular_variacion(valor1, valor2):
@@ -7,7 +7,7 @@ def calcular_variacion(valor1, valor2):
         num1 = float(valor1)
         num2 = float(valor2)
         if num1 == 0:
-            return "    [!] Indefinido (división por cero)", None
+            return print_coloreado("    [!] Indefinido (división por cero)"), None
         variacion = abs(((num2 - num1) / abs(num1)) * 100)
         return f"{variacion:.15f}%", variacion
     except ValueError:
@@ -37,7 +37,7 @@ def comparar_csv(archivo1, archivo2):
                     diferencias.append((i, fila1, fila2, variaciones))
 
         if diferencias:
-            print("\n    [X] Se encontraron diferencias entre los archivos CSV:")
+            print_coloreado("\n    [X] Se encontraron diferencias entre los archivos CSV:")
             for linea, fila1, fila2, variaciones in diferencias:
                 print(f"\n    Línea {linea}:")
                 print(f"        Archivo 1: {fila1}")
@@ -47,14 +47,14 @@ def comparar_csv(archivo1, archivo2):
             promedio = sum(valores_variacion) / len(valores_variacion) if valores_variacion else 0
             print(f"\n    Total de diferencias detectadas: {len(diferencias)}")
             print(f"    Variación promedio: {promedio:.15f}%")
-            print("\n    [X] Los archivos CSV son distintos.")
+            print_coloreado("\n    [X] Los archivos CSV son distintos.")
             return False
         else:
-            print("\n    [√] Los archivos CSV son idénticos.")
+            print_coloreado("\n    [√] Los archivos CSV son idénticos.")
             return True
 
     except Exception as e:
-        print(f"    [!] Error al comparar archivos CSV: {e}")
+        print_coloreado(f"    [!] Error al comparar archivos CSV: {e}")
         return False
     
 

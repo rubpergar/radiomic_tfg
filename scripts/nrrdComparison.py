@@ -1,6 +1,6 @@
 import nrrd
 import numpy as np
-from utils.utils import verificar_ruta
+from utils.utils import verificar_ruta, print_coloreado
 
 
 def leer_nrrd(ruta):
@@ -8,7 +8,7 @@ def leer_nrrd(ruta):
         datos, cabecera = nrrd.read(ruta)
         return datos, cabecera
     except Exception as e:
-        print(f"    [!] Error al leer el archivo NRRD: {e}")
+        print_coloreado(f"    [!] Error al leer el archivo NRRD: {e}")
         return None, None
 
 
@@ -29,7 +29,7 @@ def comparar_nrrd(archivo1, archivo2):
     cabeceras_iguales = cab1 == cab2
 
     if not cabeceras_iguales:
-        print("\n    [!] Diferencias en la cabecera:")
+        print_coloreado("\n    [!] Diferencias en la cabecera:")
         for clave in set(cab1.keys()).union(cab2.keys()):
             val1 = cab1.get(clave, "No está en archivo 1")
             val2 = cab2.get(clave, "No está en archivo 2")
@@ -37,7 +37,7 @@ def comparar_nrrd(archivo1, archivo2):
                 print(f"        {clave}: {val1} ≠ {val2}")
 
     if not datos_iguales:
-        print("\n    [!] Diferencias en los datos.")
+        print_coloreado("\n    [!] Diferencias en los datos.")
 
     return datos_iguales and cabeceras_iguales
 
@@ -49,10 +49,10 @@ def main():
     son_iguales = comparar_nrrd(archivo1, archivo2)
 
     if son_iguales:
-        print("\n    [√] Los archivos NRRD son idénticos.")
+        print_coloreado("\n    [√] Los archivos NRRD son idénticos.")
         input("\nPresiona ENTER cuando hayas finalizado.")
     else:
-        print("\n    [X] Los archivos NRRD son diferentes.")
+        print_coloreado("\n    [X] Los archivos NRRD son diferentes.")
         input("\nPresiona ENTER cuando hayas finalizado la lectura.")
 
 

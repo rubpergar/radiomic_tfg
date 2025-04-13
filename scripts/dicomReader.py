@@ -2,14 +2,14 @@ import os
 import sys
 import pydicom
 from utils.utils import si_o_no
-from utils.utils import verificar_ruta
+from utils.utils import verificar_ruta, print_coloreado
 
 
 def leer_dicom(ruta):
     try:
         return pydicom.dcmread(ruta)
     except Exception as e:
-        print(f"\n    [!] Error al leer el archivo DICOM: {e}\n")
+        print_coloreado(f"\n    [!] Error al leer el archivo DICOM: {e}\n")
         return None
 
 
@@ -17,9 +17,9 @@ def exportar_a_txt(ds, ruta_salida):
     try:
         with open(ruta_salida, "w", encoding="utf-8") as f:
             f.write(str(ds))
-        print(f"\n    [√] Archivo exportado correctamente en: {ruta_salida}")
+        print_coloreado(f"\n    [√] Archivo exportado correctamente en: {ruta_salida}")
     except Exception as e:
-        print(f"\n    [!] Error al exportar el archivo: {e}\n")
+        print_coloreado(f"\n    [!] Error al exportar el archivo: {e}\n")
 
 
 def main():

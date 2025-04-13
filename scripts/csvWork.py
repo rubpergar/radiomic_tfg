@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from utils.utils import si_o_no, verificar_ruta
+from utils.utils import si_o_no, verificar_ruta, print_coloreado
 
 
 def leer_csvs_de_carpeta(ruta_raiz):
@@ -19,16 +19,16 @@ def leer_csvs_de_carpeta(ruta_raiz):
                 df = df.pivot(index='Patient', columns='Característica', values='Valor').reset_index()
                 datos_combinados.append(df)
             else:
-                print(f"    [!] No se encontró ningún archivo CSV en {carpeta_paciente}")
+                print_coloreado(f"    [!] No se encontró ningún archivo CSV en {carpeta_paciente}")
 
     if datos_combinados:
         df_final = pd.concat(datos_combinados, ignore_index=True)
-        ruta_salida = os.path.join(ruta_raiz, 'radiomicas_combinada.csv')
+        ruta_salida = os.path.join(ruta_raiz, 'radiomicas_combinadas.csv')
         df_final.to_csv(ruta_salida, index=False)
-        print(f"\n    [√] Archivo combinado guardado en: '{ruta_salida}'\n")
+        print_coloreado(f"\n    [√] Archivo combinado guardado en: '{ruta_salida}'\n")
         return ruta_salida
     else:
-        print("\n    [X] No se encontraron datos para combinar.")
+        print_coloreado("\n    [X] No se encontraron datos para combinar.")
         return None
 
 
@@ -47,7 +47,7 @@ def normalizar_csv(ruta_csv):
     ruta_salida = ruta_csv.replace('.csv', '_normalizado.csv')
     df_normalizado.to_csv(ruta_salida, index=False)
 
-    print(f"\n    [√] Datos normalizados guardados en: '{ruta_salida}'\n")
+    print_coloreado(f"\n    [√] Datos normalizados guardados en: '{ruta_salida}'\n")
     return ruta_salida
 
 
@@ -77,7 +77,7 @@ def calcular_diferencia_pre_post(ruta_csv):
     ruta_salida = ruta_csv.replace('.csv', '_diferencia.csv')
     df_resultado.to_csv(ruta_salida, index=False)
 
-    print(f"\n    [√] Diferencia PRE vs POST calculada y guardada en: '{ruta_salida}'\n")
+    print_coloreado(f"\n    [√] Diferencia PRE vs POST calculada y guardada en: '{ruta_salida}'\n")
     return ruta_salida
 
 
@@ -123,7 +123,7 @@ def main():
             if si_o_no("¿Deseas listar las características ordenadas por estabilidad? (si/no): ") == 'si':
                 listar_caracteristicas_por_estabilidad(ruta_diferencias)
 
-    print("\n    [√] Proceso completado.")
+    print_coloreado("\n    [√] Proceso completado.")
     input("\nPresiona ENTER cuando hayas finalizado.")
 
 

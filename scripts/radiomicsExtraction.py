@@ -3,13 +3,14 @@ import os
 import csv
 import logging
 from radiomics import featureextractor
-from utils.utils import si_o_no, verificar_ruta, verificar_numero
+from utils.utils import si_o_no, verificar_ruta, verificar_numero, print_coloreado
 
 
 logging.getLogger('radiomics').setLevel(logging.ERROR)
 
 
 def extraer_caracteristicas_radiomicas(imagen, mascara):
+    print_coloreado(f"    [~] Extrayendo características radiómicas...")
     extractor = featureextractor.RadiomicsFeatureExtractor()
     caracteristicas = extractor.execute(imagen, mascara)
     return {k: v for k, v in caracteristicas.items() if 'diagnostics' not in k}
@@ -20,7 +21,7 @@ def guardar_caracteristicas_csv(caracteristicas, ruta_salida):
         writer = csv.writer(archivo_csv)
         for clave, valor in caracteristicas.items():
             writer.writerow([clave, valor])
-    print(f"    [√] Características radiómicas guardadas en: {os.path.normpath(ruta_salida).replace(os.sep, '/')}")
+    print_coloreado(f"    [√] Características radiómicas guardadas en: {os.path.normpath(ruta_salida).replace(os.sep, '/')}")
 
 
 def procesar_un_paciente():
@@ -38,7 +39,7 @@ def procesar_un_paciente():
     mascara_path = os.path.join(carpeta, f"{nombre}_SEG_MASK.nrrd")
 
     if not os.path.exists(imagen_path) or not os.path.exists(mascara_path):
-        print("    [X] No se encontraron el archivo CT o el archivo SEG.")
+        print_coloreado("    [X] No se encontraron el archivo CT o el archivo SEG.")
         return
 
     caracteristicas = extraer_caracteristicas_radiomicas(imagen_path, mascara_path)
@@ -51,7 +52,7 @@ def procesar_un_paciente():
         print("\n    Características extraídas:")
         for clave, valor in caracteristicas.items():
             print(f"  - {clave}: {valor}")
-        print("\n    [√] Proceso completado.")
+        print_coloreado("\n    [√] Proceso completado.")
         input("\nPresiona ENTER cuando hayas finalizado la lectura.")
 
 
@@ -71,8 +72,8 @@ def procesar_multiples_pacientes():
                 salida = os.path.join(carpeta_paciente, f"{nombre_paciente}_radiomics.csv")
                 guardar_caracteristicas_csv(caracteristicas, salida)
             else:
-                print(f"    [!] Saltando {nombre_paciente}: faltan archivos CT o SEG.")
-    print("\n    [√] Proceso completado.")
+                print_coloreado(f"    [!] Saltando {nombre_paciente}: faltan archivos CT o SEG.")
+    print_coloreado("\n    [√] Proceso completado.")
 
     input("\nPresiona ENTER cuando hayas finalizado.")
 
