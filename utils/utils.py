@@ -1,5 +1,6 @@
 import platform
 import os
+from colorama import Fore, Style, init
 
 
 #############################################################
@@ -51,3 +52,20 @@ def verificar_numero(prompt):
             print("    [!] Introduce un número entero positivo.")
         except ValueError:
             print("    [!] Entrada no válida. Por favor, introduce un número entero.")
+            
+            
+#############################################################
+
+init(autoreset=True)
+
+def print_coloreado(mensaje: str):
+    if "[√]" in mensaje:
+        mensaje = mensaje.replace("[√]", f"{Fore.GREEN}[√]{Style.RESET_ALL}")
+    if "[X]" in mensaje:
+        mensaje = mensaje.replace("[X]", f"{Fore.RED}[X]{Style.RESET_ALL}")
+    if "[~]" in mensaje:
+        mensaje = mensaje.replace("[~]", f"{Fore.CYAN}[~]{Style.RESET_ALL}")
+    if "[!]" in mensaje:
+        mensaje = mensaje.replace("[!]", f"{Fore.YELLOW}[!]{Style.RESET_ALL}")
+
+    print(mensaje)
