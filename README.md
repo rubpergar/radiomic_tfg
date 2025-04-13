@@ -38,7 +38,7 @@ pip install numpy
 ```
 
 ```bash
-pip install pyradiomics pydicom pynrrd pandas scikit-learn pingouin questionary argparse
+pip install pyradiomics pydicom pynrrd pandas scikit-learn pingouin questionary argparse colorama
 ```
 
 ### 4. Instalar Plastimatch
@@ -64,7 +64,7 @@ Si ves la versión, significa que está instalado correctamente.
 Para comprobar que todo está instalado correctamente, puedes ejecutar el siguiente script:
 
 ```bash
-python -c "import numpy, radiomics, pydicom, nrrd, pandas, sklearn, pingouin, questionary, argparse; print('Instalación correcta')"
+python -c "import numpy, radiomics, pydicom, nrrd, pandas, sklearn, pingouin, questionary, argparse, colorama; print('Instalación correcta')"
 ```
 
 Si no se muestra ningún error, el entorno está correctamente configurado.
