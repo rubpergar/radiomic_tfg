@@ -49,6 +49,33 @@ Para aprender a usar los scripts, se puede consultar la sección [Wiki](https://
 
 A continuación, se describen los pasos necesarios para configurar el entorno de trabajo.
 
+### 0. Requisitos previos
+
+Descarga e instala la versión de Python 3.10.9 desde [python.org](https://www.python.org/downloads/release/python-3109/).  
+> Durante la instalación marque la casilla de agregar al PATH del sistema para que este sea reconocido.
+
+Verifica que esté correctamente instalado ejecutando en terminal o CMD:
+
+```bash
+python --version
+```
+
+> Deberá devolver `Python 3.10.9`
+
+Este proyecto ha sido desarrollado usando Python 3.10.9 ya que es la mejor versión por estabilidad y compatibilidad con las dependencias usadas en el proyecto.
+
+Algunas dependencias como `pyradiomics` tiene partes escritas en C++, por lo que es necesario tener instaladas herramientas de compilación de C++ de Microsoft. Para ello, descarga e instala **Microsoft C++ Build Tools**. Sigue estos pasos para instalarlo:
+1. Descargar desde la página oficial:  
+   🔗 [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/es/visual-cpp-build-tools/)
+2. Ejecutar el instalador y seguir las instrucciones.
+3. Una vez instalado selecciona la opción de `Desarrollo para el escritorio con C++` y le das al botónde Instalar de abajo a la derecha.
+<div align="center"> 
+  <a> 
+    <img width="700px" src="https://github.com/user-attachments/assets/ee511225-5297-4dda-98dd-8f2da366a3bb" alt="Captura Microsoft C++ Build Tools" />
+  </a>
+</div>
+
+
 ### 1. Clonar el repositorio
 
 Clonación en local del repositorio:
@@ -98,15 +125,18 @@ Plastimatch es una herramienta externa necesaria para la conversión de imágene
 
 1. Descargar desde la página oficial:  
    🔗 [Plastimatch Downloads](https://sourceforge.net/projects/plastimatch/)
-2. Ejecutar el instalador y seguir las instrucciones.
-3. Añadir `Plastimatch` al PATH del sistema:
-   - Abrir las **Variables de entorno** en Windows.
-   - Editar la variable `Path` y añadir la ruta donde se instaló `plastimatch.exe`, por ejemplo:  
-     `C:\Program Files\Plastimatch\bin`
+2. Ejecuta el instalador y sigue las instrucciones:
+   - **¡IMPORTANTE!** Cuando pregunte en las opciones de instalación si quieres añadir Plastimatch al PATH, selecciona que **si** (o para el usuario actual o para todos los del sistema).
+<div align="center"> 
+  <a> 
+    <img width="400px" src="https://github.com/user-attachments/assets/a1c4d11d-2da9-40a1-b682-ac03f00dacee" alt="Captura instalación Plastimatch" />
+  </a>
+</div>
+
 
 ### 5. Verificar la instalación
 
-Para comprobar que todo está instalado correctamente, puedes ejecutar el siguiente script:
+Para comprobar que todo está instalado correctamente, cierra la consola si la tiene abierta y vuélvela a abrir. Tras esto puedes ejecutar el siguiente script:
 
 ```bash
 python -c "import numpy, radiomics, pydicom, nrrd, pandas, sklearn, pingouin, questionary, argparse, colorama; print('Instalación correcta')"
