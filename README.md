@@ -18,6 +18,7 @@ Repositorio de scripts correspondientes al Trabajo de Fin de Grado (TFG) sobre r
 - [Guía de uso](#guía-de-uso)
 - [Características principales](#características-principales)
 - [Instalación](#instalación)
+  - [0. Requisitos previos](#0-requisitos-previos)
   - [1. Clonar el repositorio](#1-clonar-el-repositorio)
   - [2. Crear un entorno virtual](#2-crear-un-entorno-virtual-opcional-pero-recomendado)
   - [3. Instalar dependencias](#3-instalar-dependencias)
