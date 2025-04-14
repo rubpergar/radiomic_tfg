@@ -4,11 +4,18 @@
 
 Este repositorio contiene los scripts relativos al Trabajo de Fin de Grado (TFG) sobre radiómicas de Rubén Pérez Garrido.
 
+
+## Guía de uso
+
+Para aprender a usar los scripts, en la sección [Wiki](https://github.com/rubpergar/radiomic_tfg/wiki), se dispondrá una guía explicativa de la secuencia de uso para pasar de las imágenes CT y SEG a la obtención de las características radiómicas más estables para su estudio.
+
 ## Instalación
 
 Para utilizar estos scripts, es necesario instalar varias dependencias. A continuación, se detallan los pasos para preparar el entorno correctamente.
 
 ### 1. Clonar el repositorio
+
+Clonación en local del repositorio:
 
 ```bash
 git clone https://github.com/rubpergar/radiomic_tfg.git
