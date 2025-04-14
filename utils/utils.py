@@ -69,3 +69,18 @@ def print_coloreado(mensaje: str):
         mensaje = mensaje.replace("[!]", f"{Fore.YELLOW}[!]{Style.RESET_ALL}")
 
     print(mensaje)
+
+
+#############################################################
+
+    
+def verificar_umbral(prompt, minimo=0.0, maximo=1.0):
+    while True:
+        try:
+            valor = float(input(prompt))
+            if minimo <= valor <= maximo:
+                return valor
+            else:
+                print_coloreado(f"[!] Introduce un valor entre {minimo} y {maximo}.")
+        except ValueError:
+            print_coloreado("[!] Entrada inválida. Introduce un número decimal válido.")
