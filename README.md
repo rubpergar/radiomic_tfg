@@ -54,7 +54,7 @@ A continuación, se describen los pasos necesarios para configurar el entorno de
 Clonación en local del repositorio:
 
 ```bash
-git clone https://github.com/rubpergar/radiomic_tfg.git
+https://github.com/rubpergar/tfg-radiomicas.git
 cd radiomic_tfg
 ```
 
