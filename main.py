@@ -62,10 +62,10 @@ def show_menu():
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Toolkit para características radiómicas")
+    parser.add_argument("--convert", action="store_true", help="Convertir DICOM a NRRD")
     parser.add_argument("--extract", action="store_true", help="Extraer características radiómicas")
     parser.add_argument("--merge-csv", action="store_true", help="Unificar y normalizar CSVs")
-    parser.add_argument("--convert", action="store_true", help="Convertir DICOM a NRRD")
-    parser.add_argument("--stats", action="store_true", help="Calcular ICC y Wilcoxon") # python main.py --stats
+    parser.add_argument("--stats", action="store_true", help="Calcular ICC y Wilcoxon")
     parser.add_argument("--read-dicom", action="store_true", help="Leer DICOM")
     parser.add_argument("--compare-csv", action="store_true", help="Comparar CSVs")
     parser.add_argument("--compare-nrrd", action="store_true", help="Comparar NRRDs")
