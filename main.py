@@ -111,7 +111,7 @@ def main():
                     options[choice]()
                 except KeyboardInterrupt:
                     print("\n\n Volviendo al menú inicial...\n")
-                    time.sleep(1)
+                    time.sleep(0.4)
 
                 limpiar_consola()
 
