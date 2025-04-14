@@ -1,17 +1,49 @@
 <a name="readme-top"></a>
 
-# Radiomic TFG
+<div align="center">
 
-Este repositorio contiene los scripts relativos al Trabajo de Fin de Grado (TFG) sobre radiómicas de Rubén Pérez Garrido.
+<a> 
+  <img width="300px" src="https://www.us.es/sites/default/files/inline-images/US-marca-principal.png" alt="LogoUS" />
+</a>
 
+# TFG Radiómicas | Rubén Pérez Garrido
+
+Repositorio de scripts correspondientes al Trabajo de Fin de Grado (TFG) sobre radiómicas de **Rubén Pérez Garrido**, desarrollado en la **Universidad de Sevilla**.
+
+</div>
+
+<details>
+<summary>Tabla de contenidos</summary>
+
+- [Guía de uso](#guía-de-uso)
+- [Capturas de pantalla](#capturas-de-pantalla)
+- [Instalación](#instalación)
+  - [1. Clonar el repositorio](#1-clonar-el-repositorio)
+  - [2. Crear un entorno virtual (opcional pero recomendado)](#2-crear-un-entorno-virtual-opcional-pero-recomendado)
+  - [3. Instalar dependencias](#3-instalar-dependencias)
+  - [4. Instalar Plastimatch](#4-instalar-plastimatch)
+  - [5. Verificar la instalación](#5-verificar-la-instalación)
+- [Contenido del repositorio](#contenido-del-repositorio)
+- [Contacto](#contacto)
+
+</details>
+
+---
 
 ## Guía de uso
 
-Para aprender a usar los scripts, en la sección [Wiki](https://github.com/rubpergar/radiomic_tfg/wiki), se dispondrá una guía explicativa de la secuencia de uso para pasar de las imágenes CT y SEG a la obtención de las características radiómicas más estables para su estudio.
+Para aprender a usar los scripts, se puede consultar la sección [Wiki](https://github.com/rubpergar/radiomic_tfg/wiki), donde se ofrece una guía paso a paso para convertir imágenes CT y SEG en un conjunto de características radiómicas estables para su análisis.
+
+## Caracterísitcas principales
+- **Conversión de DICOM a NRRD**: Conversión individual o grupal de imágenes en formato DICOM a NRRD para facilitar su estudio y extracción de radiómicas.
+- **Extracción de radiómicas**: Obtener características radiómicas a partir de las imágenes CT y SEG para poder estudiar la región de interés (ROI).
+- **Estudio estadístico de radiómicas**: Obtener aquellas características radiómicas más estables para casos de estudio de pacientes a lo largo del tiempo.
+
+(📷 **Añade aquí tus imágenes más adelante**)
 
 ## Instalación
 
-Para utilizar estos scripts, es necesario instalar varias dependencias. A continuación, se detallan los pasos para preparar el entorno correctamente.
+A continuación, se describen los pasos necesarios para configurar el entorno de trabajo.
 
 ### 1. Clonar el repositorio
 
@@ -24,7 +56,7 @@ cd radiomic_tfg
 
 ### 2. Crear un entorno virtual (opcional pero recomendado)
 
-Es aconsejable crear un entorno virtual para instalar las dependencias necesarias para el funcionamiento de los scripts:
+Crear un entorno virtual para aislar las dependencias del proyecto:
 
 ```bash
 python -m venv venv
@@ -32,9 +64,15 @@ python -m venv venv
 
 Activamos el entorno virtual:
 
-```bash
-source venv/bin/activate  # En Windows usar: venv\Scripts\activate
-```
+- **Windows**
+  ```cmd
+  venv\Scripts\activate
+  ```
+
+- **Linux / macOS**
+  ```bash
+  source venv/bin/activate
+  ```
 
 ### 3. Instalar dependencias
 
@@ -43,6 +81,8 @@ Se recomienda utilizar `pip` para instalar las dependencias necesarias:
 ```bash
 pip install numpy
 ```
+> Es necesario instalar `numpy` primero, ya que algunas de las demás dependencias la requieren y podrían fallar si no está instalada previamente.
+
 
 ```bash
 pip install pyradiomics pydicom pynrrd pandas scikit-learn pingouin questionary argparse colorama
@@ -52,19 +92,19 @@ pip install pyradiomics pydicom pynrrd pandas scikit-learn pingouin questionary 
 
 Plastimatch es una herramienta externa necesaria para la conversión de imágenes médicas. Sigue estos pasos para instalarlo:
 
-1. Descarga el instalador desde la página oficial:  
+1. Descargar desde la página oficial:  
    🔗 [Plastimatch Downloads](https://sourceforge.net/projects/plastimatch/)
-2. Ejecuta el instalador y sigue las instrucciones.
-3. **Añade Plastimatch al PATH** (si el instalador no lo hace automáticamente):
-   - Abre `Variables de entorno` en Windows.
-   - En la variable `Path`, agrega la ruta donde se instaló `plastimatch.exe` (por ejemplo, `C:\Program Files\Plastimatch\bin`).
-4. Verifica la instalación ejecutando en PowerShell o CMD:
+2. Ejecutar el instalador y seguir las instrucciones.
+3. Añadir `Plastimatch` al PATH del sistema:
+   - Abrir las **Variables de entorno** en Windows.
+   - Editar la variable `Path` y añadir la ruta donde se instaló `plastimatch.exe`, por ejemplo:  
+     `C:\Program Files\Plastimatch\bin`
+4. Verificar que se ha instalado correctamente:
 
-```sh
+```bash
 plastimatch --version
 ```
-
-Si ves la versión, significa que está instalado correctamente.
+Si aparece la versión, está listo para usarse.
 
 ### 5. Verificar la instalación
 
@@ -78,14 +118,14 @@ Si no se muestra ningún error, el entorno está correctamente configurado.
 
 ## Contenido del repositorio
 
-- `data/`: Contiene datos para realizar el tutorial de ejemplo.
-- `scripts/`: Contiene los scripts en Python necesarios para la ejecución.
-- `utils/`: Contiene funciones globales útiles para simplificar la sintaxis.
-- `main.py`: Interfaz unificada para ejecutar todos los scripts.
-- `README.md`: Contiene una presentación del repositorio y una guía general de instalación.
+- `data/`: Datos para realizar el tutorial de ejemplo.
+- `scripts/`: Scripts principales en Python.
+- `utils/`: Funciones auxiliares para simplificar el código.
+- `main.py`: Punto de entrada principal para la ejecución del proyecto.
+- `README.md`: Documento actual con guía de uso e instalación.
 
 ## Contacto
 
-Si tienes alguna duda o problema con la instalación, puedes abrir un [issue](https://github.com/rubpergar/radiomic_tfg/issues) en el repositorio o contactar conmigo en **rubpergar@alum.us.es**.
+Si tienes dudas o encuentras algún problema, puedes abrir un [issue](https://github.com/rubpergar/radiomic_tfg/issues) o contactar directamente conmigo en **rubpergar@alum.us.es**.
 
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>
