@@ -16,10 +16,10 @@ Repositorio de scripts correspondientes al Trabajo de Fin de Grado (TFG) sobre r
 <summary>Tabla de contenidos</summary>
 
 - [Guía de uso](#guía-de-uso)
-- [Capturas de pantalla](#capturas-de-pantalla)
+- [Características principales](#características-principales)
 - [Instalación](#instalación)
   - [1. Clonar el repositorio](#1-clonar-el-repositorio)
-  - [2. Crear un entorno virtual (opcional pero recomendado)](#2-crear-un-entorno-virtual-opcional-pero-recomendado)
+  - [2. Crear un entorno virtual](#2-crear-un-entorno-virtual-opcional-pero-recomendado)
   - [3. Instalar dependencias](#3-instalar-dependencias)
   - [4. Instalar Plastimatch](#4-instalar-plastimatch)
   - [5. Verificar la instalación](#5-verificar-la-instalación)
@@ -34,7 +34,7 @@ Repositorio de scripts correspondientes al Trabajo de Fin de Grado (TFG) sobre r
 
 Para aprender a usar los scripts, se puede consultar la sección [Wiki](https://github.com/rubpergar/radiomic_tfg/wiki), donde se ofrece una guía paso a paso para convertir imágenes CT y SEG en un conjunto de características radiómicas estables para su análisis.
 
-## Caracterísitcas principales
+## Características principales
 - **Conversión de DICOM a NRRD**: Conversión individual o grupal de imágenes en formato DICOM a NRRD para facilitar su estudio y extracción de radiómicas.
 - **Extracción de radiómicas**: Obtener características radiómicas a partir de las imágenes CT y SEG para poder estudiar la región de interés (ROI).
 - **Estudio estadístico de radiómicas**: Obtener aquellas características radiómicas más estables para casos de estudio de pacientes a lo largo del tiempo.
@@ -103,12 +103,6 @@ Plastimatch es una herramienta externa necesaria para la conversión de imágene
    - Abrir las **Variables de entorno** en Windows.
    - Editar la variable `Path` y añadir la ruta donde se instaló `plastimatch.exe`, por ejemplo:  
      `C:\Program Files\Plastimatch\bin`
-4. Verificar que se ha instalado correctamente:
-
-```bash
-plastimatch --version
-```
-Si aparece la versión, está listo para usarse.
 
 ### 5. Verificar la instalación
 
@@ -117,8 +111,15 @@ Para comprobar que todo está instalado correctamente, puedes ejecutar el siguie
 ```bash
 python -c "import numpy, radiomics, pydicom, nrrd, pandas, sklearn, pingouin, questionary, argparse, colorama; print('Instalación correcta')"
 ```
+> Si no se muestra ningún error, el entorno está correctamente configurado.
 
-Si no se muestra ningún error, el entorno está correctamente configurado.
+Y posteriormente para comprobar si Plastimatch está correctamente instalado ejecuta:
+
+```bash
+plastimatch --version
+```
+> Si aparece la versión, está listo para usarse.
+
 
 ## Contenido del repositorio
 
