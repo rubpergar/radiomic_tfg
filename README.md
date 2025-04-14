@@ -39,7 +39,11 @@ Para aprender a usar los scripts, se puede consultar la sección [Wiki](https://
 - **Extracción de radiómicas**: Obtener características radiómicas a partir de las imágenes CT y SEG para poder estudiar la región de interés (ROI).
 - **Estudio estadístico de radiómicas**: Obtener aquellas características radiómicas más estables para casos de estudio de pacientes a lo largo del tiempo.
 
-(📷 **Añade aquí tus imágenes más adelante**)
+<div align="center"> 
+  <a> 
+    <img width="700px" src="https://github.com/user-attachments/assets/183e662a-ef60-4380-9f0d-9389f23dcfbe" alt="Captura menú aplicación" />
+  </a>
+</div>
 
 ## Instalación
 
