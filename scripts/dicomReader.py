@@ -1,8 +1,7 @@
 import os
 import sys
 import pydicom
-from utils.utils import si_o_no
-from utils.utils import verificar_ruta, print_coloreado
+from utils.utils import si_o_no, verificar_ruta, print_coloreado
 
 
 def leer_dicom(ruta):
