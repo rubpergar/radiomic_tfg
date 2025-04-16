@@ -36,6 +36,7 @@ Repositorio de scripts correspondientes al Trabajo de Fin de Grado (TFG) sobre r
 Para aprender a usar los scripts, se puede consultar la sección [Wiki](https://github.com/rubpergar/radiomic_tfg/wiki), donde se ofrece una guía paso a paso para convertir imágenes CT y SEG en un conjunto de características radiómicas estables para su análisis.
 
 ## Características principales
+El objetivo principal de este repositorio, es ofrecer la posibilidad de extraer y estudiar características radiómicas a partir de imágenes CT y la segmentación correspondiente de un tumor. Para ello, se podrá seguir el flujo propuesto que constará de las siguientes partes principales del código:
 - **Conversión de DICOM a NRRD**: Conversión individual o grupal de imágenes en formato DICOM a NRRD para facilitar su estudio y extracción de radiómicas.
 - **Extracción de radiómicas**: Obtener características radiómicas a partir de las imágenes CT y SEG para poder estudiar la región de interés (ROI).
 - **Estudio estadístico de radiómicas**: Obtener aquellas características radiómicas más estables para casos de estudio de pacientes a lo largo del tiempo.
@@ -45,6 +46,8 @@ Para aprender a usar los scripts, se puede consultar la sección [Wiki](https://
     <img width="700px" src="https://github.com/user-attachments/assets/183e662a-ef60-4380-9f0d-9389f23dcfbe" alt="Captura menú aplicación" />
   </a>
 </div>
+
+Además de esto, se ofrece la posibilidad de leer archivos `.dcm`, e incluso la posibilidad de comparar archivos `.csv` y `.nrrd` en caso de que sea necesario.
 
 ## Instalación
 
