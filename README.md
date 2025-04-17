@@ -30,10 +30,12 @@ Repositorio de scripts correspondientes al Trabajo de Fin de Grado (TFG) sobre r
 </details>
 
 ---
-
+‎ 
 ## Guía de uso
 
 Para aprender a usar los scripts, se puede consultar la sección [Wiki](https://github.com/rubpergar/radiomic_tfg/wiki), donde se ofrece una guía paso a paso para convertir imágenes CT y SEG en un conjunto de características radiómicas estables para su análisis.
+
+‎ 
 
 ## Características principales
 El objetivo principal de este repositorio, es ofrecer la posibilidad de extraer y estudiar características radiómicas a partir de imágenes CT y la segmentación correspondiente de un tumor. Para ello, se podrá seguir el flujo propuesto que constará de las siguientes partes principales del código:
@@ -48,10 +50,9 @@ El objetivo principal de este repositorio, es ofrecer la posibilidad de extraer 
 </div>
 
 Además de esto, se ofrece la posibilidad de leer archivos `.dcm`, e incluso la posibilidad de comparar archivos `.csv` y `.nrrd` en caso de que sea necesario.
+<p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
 ## Instalación
-
-A continuación, se describen los pasos necesarios para configurar el entorno de trabajo.
 
 ### 0. Requisitos previos
 
@@ -72,14 +73,14 @@ Algunas dependencias como `pyradiomics` tiene partes escritas en C++, por lo que
 1. Descargar desde la página oficial:  
    🔗 [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/es/visual-cpp-build-tools/)
 2. Ejecutar el instalador y seguir las instrucciones.
-3. Una vez instalado selecciona la opción de `Desarrollo para el escritorio con C++` y le das al botónde Instalar de abajo a la derecha.
+3. Una vez instalado selecciona la opción de `Desarrollo para el escritorio con C++` y le das al botónde `Instalar` de abajo a la derecha.
 <div align="center"> 
   <a> 
     <img width="700px" src="https://github.com/user-attachments/assets/ee511225-5297-4dda-98dd-8f2da366a3bb" alt="Captura Microsoft C++ Build Tools" />
   </a>
 </div>
 
-
+‎ 
 ### 1. Clonar el repositorio
 
 Clonación en local del repositorio:
@@ -89,6 +90,7 @@ git clone https://github.com/rubpergar/tfg-radiomicas.git
 cd tfg-radiomicas
 ```
 
+‎ 
 ### 2. Crear un entorno virtual (opcional pero recomendado)
 
 Crear un entorno virtual para aislar las dependencias del proyecto:
@@ -109,6 +111,7 @@ Activamos el entorno virtual:
   source venv/bin/activate
   ```
 
+‎ 
 ### 3. Instalar dependencias
 
 Se recomienda utilizar `pip` para instalar las dependencias necesarias:
@@ -123,6 +126,7 @@ pip install numpy
 pip install pyradiomics pydicom pynrrd pandas scikit-learn pingouin questionary argparse colorama
 ```
 
+‎ 
 ### 4. Instalar Plastimatch
 
 Plastimatch es una herramienta externa necesaria para la conversión de imágenes médicas. Sigue estos pasos para instalarlo:
@@ -137,7 +141,7 @@ Plastimatch es una herramienta externa necesaria para la conversión de imágene
   </a>
 </div>
 
-
+‎ 
 ### 5. Verificar la instalación
 
 Para comprobar que todo está instalado correctamente, cierra la consola si la tiene abierta y vuélvela a abrir. Tras esto puedes ejecutar el siguiente script:
@@ -154,6 +158,7 @@ plastimatch --version
 ```
 > Si aparece la versión, está listo para usarse.
 
+‎ 
 
 ## Contenido del repositorio
 
@@ -162,6 +167,8 @@ plastimatch --version
 - `utils/`: Funciones auxiliares para simplificar el código.
 - `main.py`: Punto de entrada principal para la ejecución del proyecto.
 - `README.md`: Documento actual con guía de uso e instalación.
+
+‎ 
 
 ## Contacto
 
