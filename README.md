@@ -45,7 +45,7 @@ El objetivo principal de este repositorio, es ofrecer la posibilidad de extraer 
 
 <div align="center"> 
   <a> 
-    <img width="700px" src="https://github.com/user-attachments/assets/183e662a-ef60-4380-9f0d-9389f23dcfbe" alt="Captura menú aplicación" />
+    <img width="700px" src="https://github.com/user-attachments/assets/67b15782-7193-4634-945e-00b1fd03f00d" alt="Captura menú aplicación" />
   </a>
 </div>
 
